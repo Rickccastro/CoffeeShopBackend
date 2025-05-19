@@ -3,7 +3,7 @@ using Stripe;
 
 
 namespace CoffeeShop.Controllers;
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class ProductsController : ControllerBase
 {

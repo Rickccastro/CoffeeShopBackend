@@ -4,26 +4,26 @@ using Stripe;
 using static CoffeeShop.Controllers.ProductsController;
 
 namespace CoffeeShop.Controllers;
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class PricesController : ControllerBase
 {
     public class Product()
     {
         public string Name { get; set; } = string.Empty;
-        public string id { get; set; } = string.Empty;
+        public long Amount { get; set; }
+        public string Id { get; set; } = string.Empty;
 
     }
 
-    // POST: api/prices
     [HttpPost]
     public async Task<IActionResult> CreatePrice([FromBody] Product request)
     {
         var options = new PriceCreateOptions
         {
             Currency = "brl",
-            UnitAmount = 1000,
-            Product = request.id
+            UnitAmount = request.Amount,
+            Product = request.Id
         };
 
         var service = new PriceService();
@@ -39,7 +39,6 @@ public class PricesController : ControllerBase
         }
     }
 
-    // PUT: api/prices/{id}
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePrice(string id)
     {
@@ -61,7 +60,6 @@ public class PricesController : ControllerBase
         }
     }
 
-    // GET: api/prices/{id}
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPrice(string id)
     {
@@ -78,7 +76,6 @@ public class PricesController : ControllerBase
         }
     }
 
-    // GET: api/prices
     [HttpGet]
     public async Task<IActionResult> ListPrices([FromQuery] int limit = 3)
     {
@@ -96,7 +93,6 @@ public class PricesController : ControllerBase
         }
     }
 
-    // GET: api/prices/search?orderId=6735
     [HttpGet("search")]
     public async Task<IActionResult> SearchPrices([FromQuery] string orderId)
     {

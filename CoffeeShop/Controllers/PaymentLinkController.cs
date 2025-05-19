@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Stripe;
 
 namespace CoffeeShop.Controllers;
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class PaymentLinkController : ControllerBase
 {
@@ -19,37 +19,37 @@ public class PaymentLinkController : ControllerBase
     }
 
 
-    [HttpPost]
-    public async Task<IActionResult> CreatePaymentLink([FromBody] CreatePaymentLinkRequest request)
-    {
-        if (request.Items == null || !request.Items.Any())
-            return BadRequest("You must provide at least one item.");
-
-        var lineItems = request.Items.Select(item => new PaymentLinkLineItemOptions
+        [HttpPost]
+        public async Task<IActionResult> CreatePaymentLink([FromBody] CreatePaymentLinkRequest request)
         {
-            Price = item.PriceId,
-            Quantity = item.Quantity
-        }).ToList();
+            if (request.Items == null || !request.Items.Any())
+                return BadRequest("You must provide at least one item.");
 
-        var options = new PaymentLinkCreateOptions
-        {
-            LineItems = lineItems
-        };
-
-        var service = new PaymentLinkService();
-
-        try
-        {
-            var paymentLink = await service.CreateAsync(options);
-            return Ok(new
+            var lineItems = request.Items.Select(item => new PaymentLinkLineItemOptions
             {
-                Url = paymentLink.Url,
-                Id = paymentLink.Id
-            });
+                Price = item.PriceId,
+                Quantity = item.Quantity
+            }).ToList();
+
+            var options = new PaymentLinkCreateOptions
+            {
+                LineItems = lineItems
+            };
+
+            var service = new PaymentLinkService();
+
+            try
+            {
+                var paymentLink = await service.CreateAsync(options);
+                return Ok(new
+                {
+                    Url = paymentLink.Url,
+                    Id = paymentLink.Id
+                });
+            }
+            catch (StripeException ex)
+            {
+                return StatusCode(500, $"Stripe error: {ex.Message}");
+            }
         }
-        catch (StripeException ex)
-        {
-            return StatusCode(500, $"Stripe error: {ex.Message}");
-        }
-    }
 }
