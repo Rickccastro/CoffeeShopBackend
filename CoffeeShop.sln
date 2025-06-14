@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShop", "CoffeeShop\CoffeeShop.csproj", "{1BD28010-B842-4C1A-BF04-607179EEB28F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShop.Api", "src\CoffeeShop.Api\CoffeeShop.Api.csproj", "{E909675A-ED39-110D-36DB-7B583FA2DB8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShop.Domain", "src\CoffeeShop.Domain\CoffeeShop.Domain\CoffeeShop.Domain.csproj", "{A976E34D-D1B1-4906-BFFF-71C8155606D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShop.Communication", "src\CoffeeShop.Communication\CoffeeShop.Communication\CoffeeShop.Communication.csproj", "{B932409C-09E9-453B-805B-AF9033DE937C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{82BECC81-FBBB-456B-85FA-63A344A49B72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShop.Application", "src\CoffeeShop.Application\CoffeeShop.Application\CoffeeShop.Application.csproj", "{D85F9E0D-521F-4B01-81C7-E5730ED009D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +21,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1BD28010-B842-4C1A-BF04-607179EEB28F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BD28010-B842-4C1A-BF04-607179EEB28F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BD28010-B842-4C1A-BF04-607179EEB28F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BD28010-B842-4C1A-BF04-607179EEB28F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E909675A-ED39-110D-36DB-7B583FA2DB8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E909675A-ED39-110D-36DB-7B583FA2DB8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E909675A-ED39-110D-36DB-7B583FA2DB8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E909675A-ED39-110D-36DB-7B583FA2DB8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A976E34D-D1B1-4906-BFFF-71C8155606D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A976E34D-D1B1-4906-BFFF-71C8155606D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A976E34D-D1B1-4906-BFFF-71C8155606D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A976E34D-D1B1-4906-BFFF-71C8155606D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B932409C-09E9-453B-805B-AF9033DE937C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B932409C-09E9-453B-805B-AF9033DE937C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B932409C-09E9-453B-805B-AF9033DE937C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B932409C-09E9-453B-805B-AF9033DE937C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D85F9E0D-521F-4B01-81C7-E5730ED009D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D85F9E0D-521F-4B01-81C7-E5730ED009D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D85F9E0D-521F-4B01-81C7-E5730ED009D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D85F9E0D-521F-4B01-81C7-E5730ED009D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E909675A-ED39-110D-36DB-7B583FA2DB8C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{A976E34D-D1B1-4906-BFFF-71C8155606D4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{B932409C-09E9-453B-805B-AF9033DE937C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D85F9E0D-521F-4B01-81C7-E5730ED009D6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {10933150-A716-493A-842C-23FF6FFBE1D5}
