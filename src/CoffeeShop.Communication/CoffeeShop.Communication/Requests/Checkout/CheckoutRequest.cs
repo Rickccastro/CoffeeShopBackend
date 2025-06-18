@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoffeeShop.Communication.Requests
+namespace CoffeeShop.Communication.Requests.Checkout
 {
     public class CheckoutItem
     {

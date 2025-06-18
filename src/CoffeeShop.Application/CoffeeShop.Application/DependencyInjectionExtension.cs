@@ -1,4 +1,5 @@
 ﻿using CoffeeShop.Application.UseCase.Checkout.Create;
+using CoffeeShop.Application.UseCase.Customer.Create;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace CoffeeShop.Application
         public static void AddUseCase(IServiceCollection services)
         {
             services.AddScoped<ICreateCheckoutUseCase, CreateCheckoutUseCase>();
+            services.AddScoped<ICreateCustomerUseCase, CreateCustomerUseCase>();
             //services.AddScoped<IGetAllExpenseUseCase, GetAllExpenseUseCase>();
             //services.AddScoped<IGetExpenseByIdUseCase, GetExpenseByIdUseCase>();
             //services.AddScoped<IUpdateExpenseUseCase, UpdateExpenseUseCase>();

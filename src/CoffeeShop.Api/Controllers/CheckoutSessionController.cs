@@ -1,5 +1,5 @@
 ﻿using CoffeeShop.Application.UseCase.Checkout.Create;
-using CoffeeShop.Communication.Requests;
+using CoffeeShop.Communication.Requests.Checkout;
 using CoffeeShop.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;

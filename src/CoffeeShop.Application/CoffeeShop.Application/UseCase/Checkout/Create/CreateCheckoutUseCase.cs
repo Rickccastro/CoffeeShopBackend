@@ -1,4 +1,4 @@
-﻿using CoffeeShop.Communication.Requests;
+﻿using CoffeeShop.Communication.Requests.Checkout;
 using CoffeeShop.Communication.Responses;
 using Stripe.Checkout;
 
