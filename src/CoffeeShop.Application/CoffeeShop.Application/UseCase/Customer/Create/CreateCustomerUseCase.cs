@@ -10,19 +10,26 @@ namespace CoffeeShop.Application.UseCase.Customer.Create
     {
         public CustomerResponse CreateCustomer(CustomerRequest request)
         {
-
             var options = new CustomerCreateOptions
             {
                 Name = request.Nome,
                 Email = request.Email,
+                Metadata = new Dictionary<string, string>
+                    {
+                        { "cpf", request.Cpf },
+                        { "senha", request.Senha }
+                    }
             };
-            var service = new CustomerService();
 
+            var service = new CustomerService();
             service.Create(options);
 
             return new CustomerResponse
             {
-                Name = request.Nome
+                Nome = request.Nome,
+                Cpf = request.Cpf,
+                Email = request.Email,
+                Senha = request.Senha   
             };
         }
     }

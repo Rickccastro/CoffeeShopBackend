@@ -8,6 +8,9 @@ namespace CoffeeShop.Communication.Responses
 {
     public class CustomerResponse
     {
-        public string Name { get; set; }
+        public required string Cpf { get; set; }
+        public required string Nome { get; set; }
+        public required string Email { get; set; }
+        public required string Senha { get; set; }
     }
 }

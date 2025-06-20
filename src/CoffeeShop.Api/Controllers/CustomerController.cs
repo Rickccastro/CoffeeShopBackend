@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeShop.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace CoffeeShop.Api.Controllers
         {
             var resultCreateCheckoutUseCase = useCase.CreateCustomer(request);
 
-            return Ok(resultCreateCheckoutUseCase.Name);
+            return Ok(resultCreateCheckoutUseCase);
         }
     }
 }
