@@ -20,5 +20,15 @@ namespace CoffeeShop.Api.Controllers
 
             return Ok(resultCreateCheckoutUseCase);
         }
+
+
+        [Route("login-customer")]
+        [HttpPost]
+        public ActionResult LoginCustomer([FromServices] ICreateCustomerUseCase useCase, [FromBody] CustomerRequest request)
+        {
+            var resultCreateCheckoutUseCase = useCase.CreateCustomer(request);
+
+            return Ok(resultCreateCheckoutUseCase);
+        }
     }
 }
