@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CoffeeShop.Application\CoffeeShop.Application\CoffeeShop.Application.csproj" />
     <ProjectReference Include="..\CoffeeShop.Communication\CoffeeShop.Communication\CoffeeShop.Communication.csproj" />
+    <ProjectReference Include="..\CoffeeShop.Infraestructure\CoffeeShop.Infraestructure\CoffeeShop.Infraestructure.csproj" />
   </ItemGroup>
 
 </Project>
