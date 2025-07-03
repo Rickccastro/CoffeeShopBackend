@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace CoffeeShop.Domain.Entities;
+
+public partial class UsrUsuario
+{
+    public Guid UsrId { get; set; }
+
+    public string UsrNm { get; set; } = null!;
+
+    public long UsrIntPassword { get; set; }
+
+    public Guid UsrEmailId { get; set; }
+
+    public string UsrNmEndereco { get; set; } = null!;
+
+    public string UsrIntCpf { get; set; } = null!;
+
+    public virtual ICollection<EsnEmailServicoNotificacao> EsnEmailServicoNotificacaos { get; set; } = new List<EsnEmailServicoNotificacao>();
+
+    public virtual ICollection<PedPedido> PedPedidos { get; set; } = new List<PedPedido>();
+
+    public virtual EsnEmailServicoNotificacao UsrEmail { get; set; } = null!;
+}
