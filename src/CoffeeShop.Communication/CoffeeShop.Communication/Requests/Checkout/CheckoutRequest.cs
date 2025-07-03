@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace CoffeeShop.Communication.Requests.Checkout
 {
-    public class CheckoutItem
+    public class CheckoutItemRequest
     {
+        public Guid ProdutoId { get; set; }
         public int Quantity { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Amount { get; set; }
-        public string ImageUrl { get; set; }
     }
 
     public class CheckoutRequest
     {
-        public List<CheckoutItem> Items { get; set; }
+        public List<CheckoutItemRequest> Items { get; set; }
     }
 }
