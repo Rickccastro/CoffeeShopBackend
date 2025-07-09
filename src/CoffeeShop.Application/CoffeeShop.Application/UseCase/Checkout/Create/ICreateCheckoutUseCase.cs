@@ -5,6 +5,6 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
 {
     public interface ICreateCheckoutUseCase
     {
-      async Task<Session> CreateCheckout(CheckoutRequest request);
+      Task<Session> CreateCheckout(CheckoutRequest request);
     }
 }

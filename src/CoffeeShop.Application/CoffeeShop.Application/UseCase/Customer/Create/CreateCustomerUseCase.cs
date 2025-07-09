@@ -1,6 +1,8 @@
 ﻿using CoffeeShop.Communication.Requests.Customer;
 using CoffeeShop.Communication.Responses;
-using Stripe;
+using CoffeeShop.Domain;
+using CoffeeShop.Domain.Entities;
+using CoffeeShop.Domain.Repositories.Especificas;
 
 
 
@@ -8,29 +10,56 @@ namespace CoffeeShop.Application.UseCase.Customer.Create
 {
     public class CreateCustomerUseCase : ICreateCustomerUseCase
     {
-        public CustomerResponse CreateCustomer(CustomerRequest request)
+        private readonly IUserRepository _userRepository;
+        private readonly IEmailServiceNotificationRepository _emailRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateCustomerUseCase(IUnitOfWork unitOfWork, IUserRepository userRepository,IEmailServiceNotificationRepository emailRepository)
         {
-            var options = new CustomerCreateOptions
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
+            _emailRepository = emailRepository;
+        }
+        public async Task<CustomerResponse> CreateCustomer(CustomerRequest request)
+        {
+            try
             {
-                Name = request.Nome,
-                Email = request.Email,
-                Metadata = new Dictionary<string, string>
+                var userId = Guid.NewGuid();
+
+
+                var usuario = new UsrUsuario
+                   {
+                    UsrId = userId,
+                    UsrNm = request.Nome,
+                    UsrNmEndereco = request.Endereco,
+                    UsrIntCpf = request.Cpf,
+                    UsrIntPassword = Convert.ToUInt32(request.Senha),
+
+                    UsrEmail = new EsnEmailServicoNotificacao
                     {
-                        { "cpf", request.Cpf },
-                        { "senha", request.Senha }
+                        EmailId = Guid.NewGuid(),
+                        EmailNm = request.Email,
+                        //EmailUsrId =  userId                   
                     }
-            };
+                };
 
-            var service = new CustomerService();
-            service.Create(options);
+                await _userRepository.AdicionarAsync(usuario);
+                await _unitOfWork.Commit();
 
-            return new CustomerResponse
+                return new CustomerResponse
+                {
+                    Nome = request.Nome,
+                    Cpf = request.Cpf,
+                    Endereco = request.Endereco,
+                    Email = request.Email,
+                    Senha = request.Senha
+                };
+            }
+            catch (Exception ex)
             {
-                Nome = request.Nome,
-                Cpf = request.Cpf,
-                Email = request.Email,
-                Senha = request.Senha   
-            };
+                Console.WriteLine($"Erro no Commit: {ex.Message}");
+                throw; // Ou retorne uma resposta com erro se for API
+            }
         }
     }
 }

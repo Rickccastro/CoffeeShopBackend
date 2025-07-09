@@ -4,8 +4,8 @@ using CoffeeShop.Communication.Responses;
 
 namespace CoffeeShop.Application.UseCase.Customer.Create
 {
-    public interface ICreateCustomerUseCase 
+    public interface ICreateCustomerUseCase
     {
-        CustomerResponse CreateCustomer(CustomerRequest request);
+        Task<CustomerResponse> CreateCustomer(CustomerRequest request);
     }
 }
