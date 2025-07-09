@@ -1,5 +1,6 @@
 
 using CoffeeShop.Application;
+using CoffeeShop.Infraestructure;
 using Stripe;
 
 namespace CoffeeShop;
@@ -20,6 +21,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddApplication();
 
 
