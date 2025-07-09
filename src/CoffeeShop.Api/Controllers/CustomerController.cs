@@ -14,9 +14,9 @@ namespace CoffeeShop.Api.Controllers
     {
         [Route("create-customer")]
         [HttpPost]
-        public ActionResult Create([FromServices] ICreateCustomerUseCase useCase, [FromBody] CustomerRequest request)
+        public async Task <ActionResult> Create([FromServices] ICreateCustomerUseCase useCase, [FromBody] CustomerRequest request)
         {
-            var resultCreateCheckoutUseCase = useCase.CreateCustomer(request);
+            var resultCreateCheckoutUseCase =  await useCase.CreateCustomer(request);
 
             return Ok(resultCreateCheckoutUseCase);
         }
