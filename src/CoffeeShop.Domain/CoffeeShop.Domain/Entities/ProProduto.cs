@@ -11,9 +11,9 @@ public partial class ProProduto
 
     public string ProNmImgAlt { get; set; } = null!;
 
-    public string CafNmSubtitle { get; set; } = null!;
+    public string ProNmSubtitle { get; set; } = null!;
 
-    public string CafNmTitle { get; set; } = null!;
+    public string ProNmTitle { get; set; } = null!;
 
     public virtual ICollection<PeiPedidoIten> PeiPedidoItens { get; set; } = new List<PeiPedidoIten>();
 

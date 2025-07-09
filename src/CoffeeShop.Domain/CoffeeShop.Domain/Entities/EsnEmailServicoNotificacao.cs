@@ -9,9 +9,7 @@ public partial class EsnEmailServicoNotificacao
 
     public string EmailNm { get; set; } = null!;
 
-    public Guid EmailUsrId { get; set; }
+    public Guid? EmailUsrId { get; set; }
 
-    public virtual UsrUsuario EmailUsr { get; set; } = null!;
-
-    public virtual ICollection<UsrUsuario> UsrUsuarios { get; set; } = new List<UsrUsuario>();
+    public virtual UsrUsuario? EmailUsr { get; set; } 
 }

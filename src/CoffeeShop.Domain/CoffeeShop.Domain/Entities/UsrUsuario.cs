@@ -16,10 +16,7 @@ public partial class UsrUsuario
     public string UsrNmEndereco { get; set; } = null!;
 
     public string UsrIntCpf { get; set; } = null!;
-
-    public virtual ICollection<EsnEmailServicoNotificacao> EsnEmailServicoNotificacaos { get; set; } = new List<EsnEmailServicoNotificacao>();
-
+    public virtual EsnEmailServicoNotificacao UsrEmail { get; set; } = null!;
     public virtual ICollection<PedPedido> PedPedidos { get; set; } = new List<PedPedido>();
 
-    public virtual EsnEmailServicoNotificacao UsrEmail { get; set; } = null!;
 }
