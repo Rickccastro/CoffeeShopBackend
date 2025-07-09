@@ -14,6 +14,7 @@ namespace CoffeeShop.Communication.Requests.Checkout
 
     public class CheckoutRequest
     {
+        public Guid UserId { get; set; }
         public List<CheckoutItemRequest> Items { get; set; }
     }
 }
