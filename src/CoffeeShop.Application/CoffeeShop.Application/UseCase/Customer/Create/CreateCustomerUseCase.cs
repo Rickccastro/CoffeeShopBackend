@@ -11,14 +11,12 @@ namespace CoffeeShop.Application.UseCase.Customer.Create
     public class CreateCustomerUseCase : ICreateCustomerUseCase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IEmailServiceNotificationRepository _emailRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateCustomerUseCase(IUnitOfWork unitOfWork, IUserRepository userRepository,IEmailServiceNotificationRepository emailRepository)
+        public CreateCustomerUseCase(IUnitOfWork unitOfWork, IUserRepository userRepository)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
-            _emailRepository = emailRepository;
         }
         public async Task<CustomerResponse> CreateCustomer(CustomerRequest request)
         {
@@ -39,7 +37,7 @@ namespace CoffeeShop.Application.UseCase.Customer.Create
                     {
                         EmailId = Guid.NewGuid(),
                         EmailNm = request.Email,
-                        //EmailUsrId =  userId                   
+                        EmailUsrId = userId
                     }
                 };
 
@@ -58,7 +56,7 @@ namespace CoffeeShop.Application.UseCase.Customer.Create
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro no Commit: {ex.Message}");
-                throw; // Ou retorne uma resposta com erro se for API
+                throw; 
             }
         }
     }

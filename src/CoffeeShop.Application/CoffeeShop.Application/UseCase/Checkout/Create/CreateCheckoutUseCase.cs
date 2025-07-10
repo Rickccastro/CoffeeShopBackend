@@ -4,6 +4,7 @@ using CoffeeShop.Domain.Entities;
 using CoffeeShop.Domain.Enums;
 using CoffeeShop.Domain.Repositories.Especificas;
 using Stripe.Checkout;
+using Stripe.Forwarding;
 
 
 
@@ -26,6 +27,10 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
             _unitOfWork = unitOfWork;
         }
 
+        public void Conversoes()
+        {
+        }
+
         public async Task<Session> CreateCheckout(CheckoutRequest request)
         {
             var pedidoId = Guid.NewGuid();
@@ -35,7 +40,7 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
 
             var session = CreateSession(itensProcessados.LineItems);
 
-            var pedido = CriarPedido(pedidoId, request.UserId, itensProcessados.PedidoItens,
+            var pedido = CriarPedido(pedidoId, Guid.Parse(request.UserId) , itensProcessados.PedidoItens,
                 itensProcessados.ValorTotal, session);
 
             await _pedidoRepository.AdicionarAsync(pedido);
@@ -47,7 +52,7 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
 
 
         private async Task<(List<PeiPedidoIten> PedidoItens, List<SessionLineItemOptions> LineItems, long ValorTotal)>
-    ProcessarItensAsync(List<CheckoutItemRequest> itens, Guid pedidoId, DateTime data)
+    ProcessarItensAsync(List<CheckoutListItemRequest> itens, Guid pedidoId, DateTime data)
         {
             var pedidoItens = new List<PeiPedidoIten>();
             var lineItems = new List<SessionLineItemOptions>();
@@ -55,10 +60,9 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
 
             foreach (var item in itens)
             {
-                var produto = await _produtoRepository.ObterPorIdAsync(item.ProdutoId)
-                              ?? throw new InvalidOperationException($"Produto com ID {item.ProdutoId} não encontrado.");
+                var produto = await _produtoRepository.ObterPorIdStringAsync(item.ProdutoId) ?? throw new InvalidOperationException($"Produto com ID {item.ProdutoId} não encontrado.");
 
-                var preco = await _precoRepository.ObterPrecoVigenteAsync(item.ProdutoId, data)
+                var preco = await _precoRepository.ObterPrecoVigenteAsync(produto.ProIdProduto, data)
                               ?? throw new InvalidOperationException($"Preço vigente para produto {item.ProdutoId} não encontrado.");
 
                 long subtotal = preco.PriPrecoUnitario * item.Quantity;
