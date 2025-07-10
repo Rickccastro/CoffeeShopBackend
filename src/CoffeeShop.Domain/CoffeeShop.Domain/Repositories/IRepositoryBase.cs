@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace CoffeeShop.Domain.Repositories
 {
@@ -11,7 +6,6 @@ namespace CoffeeShop.Domain.Repositories
     {
         Task<T> ObterPorPropriedadeAsync(Expression<Func<T, bool>> predicate);
         Task<T> ObterPorIdAsync(Guid id);
-        Task<T> ObterPorIdStringAsync(string id);
         Task<IEnumerable<T>> ObterTodosAsync();
         Task AdicionarAsync(T entity);
         Task AdicionarListaAsync(IEnumerable<T> entities);

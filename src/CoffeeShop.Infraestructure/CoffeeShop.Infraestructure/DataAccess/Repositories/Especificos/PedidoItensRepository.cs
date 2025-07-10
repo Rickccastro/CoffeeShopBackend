@@ -1,5 +1,6 @@
 ﻿using CoffeeShop.Domain.Entities;
 using CoffeeShop.Domain.Repositories.Especificas;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos
@@ -9,5 +10,6 @@ namespace CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos
         public PedidoItensRepository(CoffeeShopDbContext context) : base(context)
         {
         }
+      
     }
 }

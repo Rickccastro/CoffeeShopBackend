@@ -55,9 +55,17 @@ namespace CoffeeShop.Infraestructure.DataAccess.Repositories
             _dbSet.Remove(entity);
         }
 
-        public virtual async Task<T> ObterPorIdStringAsync(string id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
+       // public virtual async Task<T> ObterPorIdStringAsync(string id)
+       // {
+       //     var resultado = await _dbSet.FirstOrDefaultAsync(e =>
+       //EF.Property<string>(e, "ProIdProduto") == id);
+
+       //     if (resultado == null)
+       //     {
+       //         Console.WriteLine($"Produto '{id}' não encontrado via FirstOrDefaultAsync.");
+       //     }
+
+       //     return resultado;
+       // }
     }
 }

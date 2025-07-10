@@ -27,10 +27,6 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
             _unitOfWork = unitOfWork;
         }
 
-        public void Conversoes()
-        {
-        }
-
         public async Task<Session> CreateCheckout(CheckoutRequest request)
         {
             var pedidoId = Guid.NewGuid();

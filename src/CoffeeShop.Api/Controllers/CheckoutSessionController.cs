@@ -12,9 +12,9 @@ public class CheckoutSessionController : ControllerBase
 {
     [Route("create-checkout-session")]
     [HttpPost]
-    public ActionResult Create([FromServices] ICreateCheckoutUseCase useCase, [FromBody] CheckoutRequest request)
+    public async Task <ActionResult> Create([FromServices] ICreateCheckoutUseCase useCase, [FromBody] CheckoutRequest request)
     {
-        var resultCreateCheckoutUseCase = useCase.CreateCheckout(request);
+        var resultCreateCheckoutUseCase = await useCase.CreateCheckout(request);
 
         return Ok(new CheckoutSessionResponse(resultCreateCheckoutUseCase.ToString()));
     }
