@@ -11,6 +11,7 @@ namespace CoffeeShop.Domain.Repositories
     {
         Task<T> ObterPorPropriedadeAsync(Expression<Func<T, bool>> predicate);
         Task<T> ObterPorIdAsync(Guid id);
+        Task<T> ObterPorIdStringAsync(string id);
         Task<IEnumerable<T>> ObterTodosAsync();
         Task AdicionarAsync(T entity);
         Task AdicionarListaAsync(IEnumerable<T> entities);

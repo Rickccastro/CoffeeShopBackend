@@ -11,8 +11,6 @@ public partial class UsrUsuario
 
     public long UsrIntPassword { get; set; }
 
-    public Guid UsrEmailId { get; set; }
-
     public string UsrNmEndereco { get; set; } = null!;
 
     public string UsrIntCpf { get; set; } = null!;

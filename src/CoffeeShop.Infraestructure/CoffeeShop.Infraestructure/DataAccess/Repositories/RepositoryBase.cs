@@ -54,5 +54,10 @@ namespace CoffeeShop.Infraestructure.DataAccess.Repositories
         {
             _dbSet.Remove(entity);
         }
+
+        public virtual async Task<T> ObterPorIdStringAsync(string id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
     }
 }

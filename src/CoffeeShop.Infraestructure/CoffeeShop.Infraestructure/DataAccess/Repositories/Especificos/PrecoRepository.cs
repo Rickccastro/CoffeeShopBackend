@@ -10,15 +10,15 @@ namespace CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos
         {
         }
 
-        public async Task<PriPrice> ObterPrecoVigenteAsync(Guid produtoId, DateTime dataReferencia)
+        public async Task<PriPrice> ObterPrecoVigenteAsync(string produtoId, DateTime dataReferencia)
         {
             return await _context.PriPrices
-                .AsNoTracking()
-                .Where(p => p.PriIdProduto == produtoId &&
-                            p.PriDataInicio <= dataReferencia &&
-                            (p.PriDataFim == null || p.PriDataFim >= dataReferencia))
-                .OrderByDescending(p => p.PriDataInicio)
-                .FirstOrDefaultAsync();
+              .AsNoTracking()
+              .Where(p => p.PriIdProduto == produtoId &&
+                          p.PriDataInicio <= dataReferencia &&
+                          (p.PriDataFim == null || p.PriDataFim >= dataReferencia))
+              .OrderByDescending(p => p.PriDataInicio)
+              .FirstOrDefaultAsync();
         }
     }
 }

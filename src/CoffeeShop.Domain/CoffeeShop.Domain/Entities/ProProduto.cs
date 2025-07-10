@@ -5,7 +5,7 @@ namespace CoffeeShop.Domain.Entities;
 
 public partial class ProProduto
 {
-    public Guid ProIdProduto { get; set; }
+    public string ProIdProduto { get; set; } = null!;
 
     public string ProNmImgSrc { get; set; } = null!;
 

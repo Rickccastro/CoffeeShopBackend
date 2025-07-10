@@ -147,7 +147,8 @@ public partial class CoffeeShopDbContext : DbContext
             entity.ToTable("PRO_Produto");
 
             entity.Property(e => e.ProIdProduto)
-                .ValueGeneratedNever()
+                .HasMaxLength(50) 
+                .IsUnicode(false)
                 .HasColumnName("pro_id_produto");
             entity.Property(e => e.ProNmImgAlt)
                 .HasMaxLength(255)
@@ -209,7 +210,11 @@ public partial class CoffeeShopDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("usr_id");
 
-            entity.Property(e => e.UsrEmailId).HasColumnName("usr_email_id").IsRequired();
+            entity.HasOne(u => u.UsrEmail)
+                  .WithOne(e => e.EmailUsr)
+                  .HasForeignKey<EsnEmailServicoNotificacao>(e => e.EmailUsrId) 
+                  .IsRequired()
+                  .OnDelete(DeleteBehavior.Cascade);
 
             entity.Property(e => e.UsrIntCpf)
                 .HasMaxLength(20)
@@ -227,12 +232,6 @@ public partial class CoffeeShopDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("usr_nm_endereco");
-
-           entity.HasOne(u => u.UsrEmail)
-                .WithOne(e => e.EmailUsr)
-                .HasForeignKey<UsrUsuario>(u => u.UsrEmailId)
-                .OnDelete(DeleteBehavior.Cascade) 
-                 .HasConstraintName("usr_usuario_usr_email_id_foreign");
         });
 
         OnModelCreatingPartial(modelBuilder);

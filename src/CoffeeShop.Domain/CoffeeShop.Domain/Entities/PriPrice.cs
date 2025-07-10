@@ -7,7 +7,7 @@ public partial class PriPrice
 {
     public Guid PriId { get; set; }
 
-    public Guid PriIdProduto { get; set; }
+    public string PriIdProduto { get; set; } = null!;
 
     public long PriPrecoUnitario { get; set; }
 

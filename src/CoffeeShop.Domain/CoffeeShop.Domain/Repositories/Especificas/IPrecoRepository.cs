@@ -4,6 +4,6 @@ namespace CoffeeShop.Domain.Repositories.Especificas
 {
     public interface IPrecoRepository : IRepositoryBase<PriPrice>
     {
-        Task<PriPrice> ObterPrecoVigenteAsync(Guid produtoId, DateTime dataReferencia);
+        Task<PriPrice> ObterPrecoVigenteAsync(string produtoId, DateTime dataReferencia);
     }
 }

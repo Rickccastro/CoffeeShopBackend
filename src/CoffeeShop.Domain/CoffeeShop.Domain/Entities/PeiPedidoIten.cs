@@ -11,7 +11,7 @@ public partial class PeiPedidoIten
 
     public Guid PeiIdPreco { get; set; }
 
-    public Guid PeiIdProduto { get; set; }
+    public string PeiIdProduto { get; set; } = null!;
 
     public long PeiIntQuantidade { get; set; }
 
