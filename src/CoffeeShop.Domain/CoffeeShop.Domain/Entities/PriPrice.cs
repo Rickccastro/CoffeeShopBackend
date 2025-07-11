@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CoffeeShop.Domain.Entities;
+﻿namespace CoffeeShop.Domain.Entities;
 
 public partial class PriPrice
 {
-    public Guid PriId { get; set; }
+    public string PriId { get; set; } = null!;
 
     public string PriIdProduto { get; set; } = null!;
 

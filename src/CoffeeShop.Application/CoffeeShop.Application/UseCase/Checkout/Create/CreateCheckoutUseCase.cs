@@ -58,10 +58,12 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
             {
                 var produto = await _produtoRepository.ObterPorIdStringAsync(item.ProdutoId) ?? throw new InvalidOperationException($"Produto com ID {item.ProdutoId} não encontrado.");
 
-                var preco = await _precoRepository.ObterPrecoVigenteAsync(produto.ProIdProduto, data)
-                              ?? throw new InvalidOperationException($"Preço vigente para produto {item.ProdutoId} não encontrado.");
+                var preco = produto.PriPrices
+                         .FirstOrDefault(p => p.PriDataInicio <= data && (p.PriDataFim == null || p.PriDataFim >= data))
+                         ?? throw new InvalidOperationException($"Preço vigente para produto {item.ProdutoId} não encontrado.");
 
                 long subtotal = preco.PriPrecoUnitario * item.Quantity;
+
                 valorTotal += subtotal;
 
                 pedidoItens.Add(new PeiPedidoIten

@@ -16,7 +16,7 @@ public class CheckoutSessionController : ControllerBase
     {
         var resultCreateCheckoutUseCase = await useCase.CreateCheckout(request);
 
-        return Ok(new CheckoutSessionResponse(resultCreateCheckoutUseCase.ToString()));
+        return Ok(new CheckoutSessionResponse(resultCreateCheckoutUseCase.ClientSecret));
     }
 
     [HttpGet]

@@ -124,6 +124,7 @@ public partial class CoffeeShopDbContext : DbContext
 
             entity.Property(e => e.PriId)
                 .ValueGeneratedNever()
+                .HasMaxLength(50).IsUnicode(false)
                 .HasColumnName("pri_id");
             entity.Property(e => e.PriDataFim)
                 .HasColumnType("datetime")
@@ -131,8 +132,12 @@ public partial class CoffeeShopDbContext : DbContext
             entity.Property(e => e.PriDataInicio)
                 .HasColumnType("datetime")
                 .HasColumnName("pri_data_inicio");
-            entity.Property(e => e.PriIdProduto).HasColumnName("pri_id_produto");
+            entity.Property(e => e.PriIdProduto)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("pri_id_produto");
             entity.Property(e => e.PriPrecoUnitario).HasColumnName("pri_preco_unitario");
+
 
             entity.HasOne(d => d.PriIdProdutoNavigation).WithMany(p => p.PriPrices)
                 .HasForeignKey(d => d.PriIdProduto)

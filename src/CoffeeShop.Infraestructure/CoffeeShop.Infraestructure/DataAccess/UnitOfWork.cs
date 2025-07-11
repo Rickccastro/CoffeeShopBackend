@@ -18,6 +18,10 @@ namespace CoffeeShop.Infraestructure.DataAccess
 
                 await _dbContext.SaveChangesAsync();
             }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             finally
             {
                 _dbContext.ChangeTracker.AutoDetectChangesEnabled = true;

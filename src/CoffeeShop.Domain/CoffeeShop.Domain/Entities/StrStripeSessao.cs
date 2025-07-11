@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CoffeeShop.Domain.Entities;
+﻿namespace CoffeeShop.Domain.Entities;
 
 public partial class StrStripeSessao
 {

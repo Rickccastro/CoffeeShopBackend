@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CoffeeShop.Domain.Entities;
+﻿namespace CoffeeShop.Domain.Entities;
 
 public partial class PeiPedidoIten
 {
@@ -9,7 +6,7 @@ public partial class PeiPedidoIten
 
     public Guid PeiIdPedido { get; set; }
 
-    public Guid PeiIdPreco { get; set; }
+    public string PeiIdPreco { get; set; } = null!;
 
     public string PeiIdProduto { get; set; } = null!;
 
