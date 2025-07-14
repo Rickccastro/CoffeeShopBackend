@@ -25,9 +25,16 @@ namespace CoffeeShop.Infraestructure.DataAccess.Repositories
             await _dbSet.AddRangeAsync(entities);
         }
 
-        public virtual async Task<T> ObterPorPropriedadeAsync(Expression<Func<T, bool>> predicate)
+        public virtual async Task<T> ObterPorPropriedadeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
         {
-            return await _dbSet.FirstOrDefaultAsync(predicate);
+            IQueryable<T> query = _dbSet;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(predicate);
         }
 
         public virtual async Task<T> ObterPorIdAsync(Guid id)
