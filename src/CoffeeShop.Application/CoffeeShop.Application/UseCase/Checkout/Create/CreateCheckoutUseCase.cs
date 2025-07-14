@@ -4,8 +4,6 @@ using CoffeeShop.Domain.Entities;
 using CoffeeShop.Domain.Enums;
 using CoffeeShop.Domain.Repositories.Especificas;
 using Stripe.Checkout;
-using Stripe.Forwarding;
-
 
 
 namespace CoffeeShop.Application.UseCase.Checkout.Create
@@ -13,7 +11,6 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
     public class CreateCheckoutUseCase : ICreateCheckoutUseCase
     {
         private readonly IProdutoRepository _produtoRepository;
-        private readonly IPrecoRepository _precoRepository;
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -22,7 +19,6 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
              IPedidoRepository pedidoRepository, IUnitOfWork unitOfWork)
         {
             _produtoRepository = produtoRepository;
-            _precoRepository = precoRepository;
             _pedidoRepository = pedidoRepository;
             _unitOfWork = unitOfWork;
         }
