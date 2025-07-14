@@ -1,11 +1,15 @@
 ﻿using CoffeeShop.Domain;
 using CoffeeShop.Domain.Repositories.Especificas;
+using CoffeeShop.Domain.Services.Email;
+using CoffeeShop.Domain.Settings;
 using CoffeeShop.Infraestructure.DataAccess;
 using CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos;
+using CoffeeShop.Infraestructure.ExternalServices.AWS.EmailService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace CoffeeShop.Infraestructure
 {
@@ -15,6 +19,7 @@ namespace CoffeeShop.Infraestructure
         {
             AddRepositories(services);
             AddDbContext(services, configuration);
+            AddExternalServices(services, configuration);
         }
 
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
@@ -36,6 +41,22 @@ namespace CoffeeShop.Infraestructure
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IPedidoItensRepository, PedidoItensRepository>();
             services.AddScoped<IPrecoRepository, PrecoRepository>();
+        }
+        private static void AddExternalServices(IServiceCollection services, IConfiguration configuration)
+        {
+            var awsSettings = new AwsEmailSettings
+            {
+                AccessKey = configuration["AWS:AccessKey"]!,
+                SecretKey = configuration["AWS:SecretKey"]!,
+                Region = configuration["AWS:Region"]!,
+                FromAddress = configuration["AWS:FromAddress"]!,
+                ConfigurationSet = configuration["AWS:ConfigurationSet"]!
+
+            };
+
+            var options = Options.Create(awsSettings);
+
+            services.AddScoped<ISesEmailService>(sp => new SesEmailService(options));
         }
     }
 }
