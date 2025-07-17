@@ -1,10 +1,10 @@
 ﻿using CoffeeShop.Communication.Requests.Checkout;
-using Stripe.Checkout;
+using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
 
 namespace CoffeeShop.Application.UseCase.Checkout.Create
 {
     public interface ICreateCheckoutUseCase
     {
-      Task<Session> CreateCheckout(CheckoutRequest request);
+      Task<CheckoutSessionResult> CreateCheckout(CheckoutRequest request);
     }
 }
