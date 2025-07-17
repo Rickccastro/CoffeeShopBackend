@@ -24,7 +24,7 @@ namespace CoffeeShop.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Login([FromServices] ILoginUserUseCase useCase, [FromBody] LoginRequest request)
         {
-            var user = await useCase.LoginUser(request);
+            var userResponse = await useCase.LoginUser(request);
 
             return Ok(userResponse);
         }

@@ -1,8 +1,8 @@
 ﻿using CoffeeShop.Application.UseCase.Checkout.Create;
+using CoffeeShop.Application.UseCase.Checkout.GetSessionStatus;
 using CoffeeShop.Communication.Requests.Checkout;
 using CoffeeShop.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
-using Stripe.Checkout;
 
 
 namespace CoffeeShop.Controllers;
@@ -20,11 +20,11 @@ public class CheckoutSessionController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult SessionStatus([FromQuery] string session_id)
+    public ActionResult SessionStatus([FromServices] IGetSessionStatusUseCase useCase,[FromQuery] SessionRequest session)
     {
-        var sessionService = new SessionService();
-        Session session = sessionService.Get(session_id);
 
-        return new JsonResult(new { status = session.Status, customer_email = session.CustomerDetails.Email });
+        var result = useCase.GetStatus(session);
+
+        return  Ok(new SessionResponse { Status = result.Status, CustomerEmail = result.CustomerEmail });
     }
 }
