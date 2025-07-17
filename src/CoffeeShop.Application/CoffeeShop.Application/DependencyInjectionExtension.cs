@@ -1,4 +1,5 @@
 ﻿using CoffeeShop.Application.UseCase.Checkout.Create;
+using CoffeeShop.Application.UseCase.Checkout.GetSessionStatus;
 using CoffeeShop.Application.UseCase.Customer.Create;
 using CoffeeShop.Application.UseCase.Customer.Login;
 using CoffeeShop.Application.UseCase.Email.EmailServiceNotification;
@@ -22,9 +23,10 @@ namespace CoffeeShop.Application
         public static void AddUseCase(IServiceCollection services)
         {
             services.AddScoped<ICreateCheckoutUseCase, CreateCheckoutUseCase>();
-            services.AddScoped<ICreateUserUseCase, CreateCustomerUseCase>();
+            services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
             services.AddScoped<ILoginUserUseCase,  LoginUserUseCase>();
-            services.AddScoped<IEmailSenderNotification, EmailSenderNotification>();
+            services.AddScoped<IEmailSenderNotification, EmailSenderNotificationUseCase>();
+            services.AddScoped<IGetSessionStatusUseCase, GetSessionStatusUseCase>();
             //services.AddScoped<IGetAllExpenseUseCase, GetAllExpenseUseCase>();
             //services.AddScoped<IGetExpenseByIdUseCase, GetExpenseByIdUseCase>();
             //services.AddScoped<IUpdateExpenseUseCase, UpdateExpenseUseCase>();
