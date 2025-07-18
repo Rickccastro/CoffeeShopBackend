@@ -1,8 +1,13 @@
-﻿using CoffeeShop.Application.UseCase.Checkout.Create;
+﻿using CoffeeShop.Application.AutoMapper;
+using CoffeeShop.Application.UseCase.Checkout.Create;
 using CoffeeShop.Application.UseCase.Checkout.GetSessionStatus;
 using CoffeeShop.Application.UseCase.Customer.Create;
 using CoffeeShop.Application.UseCase.Customer.Login;
 using CoffeeShop.Application.UseCase.Email.EmailServiceNotification;
+using CoffeeShop.Application.UseCase.Pedido.GetTotalValorPedido;
+using CoffeeShop.Application.UseCase.PedidoItem.CreatePedidoItem;
+using CoffeeShop.Application.UseCase.Preco.GetPrecoVigente;
+using CoffeeShop.Application.UseCase.Preco.GetPrecoVIgente;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoffeeShop.Application
@@ -17,7 +22,7 @@ namespace CoffeeShop.Application
 
         public static void AddAutoMapping(IServiceCollection services)
         {
-            //services.AddAutoMapper(typeof(AutoMapping));
+            services.AddAutoMapper(typeof(AutoMapping));
         }
 
         public static void AddUseCase(IServiceCollection services)
@@ -27,14 +32,9 @@ namespace CoffeeShop.Application
             services.AddScoped<ILoginUserUseCase,  LoginUserUseCase>();
             services.AddScoped<IEmailSenderNotification, EmailSenderNotificationUseCase>();
             services.AddScoped<IGetSessionStatusUseCase, GetSessionStatusUseCase>();
-            //services.AddScoped<IGetAllExpenseUseCase, GetAllExpenseUseCase>();
-            //services.AddScoped<IGetExpenseByIdUseCase, GetExpenseByIdUseCase>();
-            //services.AddScoped<IUpdateExpenseUseCase, UpdateExpenseUseCase>();
-            //services.AddScoped<IDeleteExpenseUseCase, DeleteExpenseUseCase>();
-            //services.AddScoped<IGenerateExpensesReportExcelUseCase, GenerateExpensesReportExcelUseCase>();
-            //services.AddScoped<IGenerateExpensesReportPdfUseCase, GenerateExpensesReportPdfUseCase>();
-            //services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
-            //services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
+            services.AddScoped<ICreatePedidoItemUseCase, CreatePedidoItemUseCase>();
+            services.AddScoped<IGetPrecoVigenteUseCase, GetPrecoVigenteUseCase>();
+            services.AddScoped<IGetTotalValorPedidoUseCase, GetTotalValorPedidoUseCase>();
         }
     }
 }
