@@ -5,6 +5,6 @@ namespace CoffeeShop.Application.UseCase.Pedido.Create
 {
     public interface ICreatePedidoUseCase
     {
-       Task <PedPedido> CreatePedido(Guid usuarioId, List<PeiPedidoIten> pedidoItens, long valorTotal, CheckoutSessionResult session);
+       Task <PedPedido> CreatePedido(Guid usuarioId, List<PeiPedidoIten> pedidoItens, CheckoutSessionResult session);
     }
 }
