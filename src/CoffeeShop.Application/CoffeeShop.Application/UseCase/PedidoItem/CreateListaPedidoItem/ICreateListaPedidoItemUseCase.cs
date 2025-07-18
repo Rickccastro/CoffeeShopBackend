@@ -6,7 +6,6 @@ namespace CoffeeShop.Application.UseCase.PedidoItem.CreateListaPedidoItem
 {
     public interface ICreateListaPedidoItemUseCase
     {
-       Task<(List<PeiPedidoIten> PedidoItens, List<CheckoutItemRequest> LineItems, long ValorTotal)> 
-            ProcessarItensAsync(List<CheckoutListItemRequest> itens, DateTime dataAtual);
+        Task<List<PeiPedidoIten>> CreateListaPedidoItem(List<CheckoutItemRequest> LineItems, DateTime dataAtual);
     }
 }
