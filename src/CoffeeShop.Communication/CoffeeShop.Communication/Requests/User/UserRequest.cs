@@ -2,10 +2,10 @@
 {
     public class UserRequest
     {
-        public required string Cpf { get; set; }
-        public required string Nome { get; set; }
-        public required string Email { get; set; }
-        public required string Senha { get; set; }
-        public required string Endereco { get; set; }
+        public string UsrIntCpf { get; set; } = null!;
+        public string UsrNm { get; set; } = null!;
+        public long UsrIntPassword { get; set; }
+        public string UsrNmEndereco { get; set; } = null!;
+        public string EmailNm { get; set; } = null!;
     }
 }
