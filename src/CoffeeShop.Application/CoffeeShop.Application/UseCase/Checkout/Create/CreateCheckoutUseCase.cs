@@ -1,9 +1,10 @@
-﻿using CoffeeShop.Application.UseCase.Checkout.CreateCheckoutLineItems;
+﻿using CoffeeShop.Application.ExternalServices.Contracts.Stripe;
+using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+using CoffeeShop.Application.UseCase.Checkout.CreateCheckoutLineItems;
 using CoffeeShop.Application.UseCase.Pedido.Create;
 using CoffeeShop.Application.UseCase.PedidoItem.CreateListaPedidoItem;
 using CoffeeShop.Communication.Requests.Checkout;
-using CoffeeShop.Domain.ExternalServices.Stripe;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
+using CoffeeShop.Domain.Entities;
 using CoffeeShop.Domain.Repositories.Especificas;
 
 namespace CoffeeShop.Application.UseCase.Checkout.Create
@@ -32,10 +33,10 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
         {
             var dataAtual = DateTime.UtcNow;  
             
-            var listaLineItems = await _createCheckoutLineItemsUseCase.ProcessarItensAsync(request.Items, dataAtual);
-            var listaPedidoItem = await _createListaPedidoItemUseCase.CreateListaPedidoItem(listaLineItems, dataAtual);
+            var listaPedidoItem = await _createCheckoutLineItemsUseCase.ProcessarItensAsync(request.Items, dataAtual);
+            //var listaPedidoItem = await _createListaPedidoItemUseCase.CreateListaPedidoItem(listaLineItems, dataAtual);
 
-            var session = _createCheckoutSession.CreateSession(listaLineItems);
+            var session = _createCheckoutSession.CreateSession(listaPedidoItem);
 
             await _createPedidoUseCase.CreatePedido(Guid.Parse(request.UserId), listaPedidoItem, session);
 

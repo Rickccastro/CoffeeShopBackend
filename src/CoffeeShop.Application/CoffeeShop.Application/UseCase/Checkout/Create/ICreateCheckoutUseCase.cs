@@ -1,5 +1,5 @@
-﻿using CoffeeShop.Communication.Requests.Checkout;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
+﻿using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+using CoffeeShop.Communication.Requests.Checkout;
 
 namespace CoffeeShop.Application.UseCase.Checkout.Create
 {
