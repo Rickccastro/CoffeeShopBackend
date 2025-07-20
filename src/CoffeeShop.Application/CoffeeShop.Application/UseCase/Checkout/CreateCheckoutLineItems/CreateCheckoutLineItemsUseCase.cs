@@ -1,8 +1,9 @@
-﻿using CoffeeShop.Application.UseCase.PedidoItem.CreatePedidoItem;
+﻿using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+using CoffeeShop.Application.UseCase.PedidoItem.CreatePedidoItem;
 using CoffeeShop.Application.UseCase.Preco.GetPrecoVigente;
 using CoffeeShop.Application.UseCase.Produto.GetById;
 using CoffeeShop.Communication.Requests.Checkout;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
+using CoffeeShop.Domain.Entities;
 
 namespace CoffeeShop.Application.UseCase.Checkout.CreateCheckoutLineItems
 {
@@ -22,33 +23,42 @@ namespace CoffeeShop.Application.UseCase.Checkout.CreateCheckoutLineItems
             _getPrecoVigenteUseCase = getPrecoVigenteUseCase;
         }
 
-        public async Task <List<CheckoutItemRequest>> ProcessarItensAsync (List<CheckoutListItemRequest> itens, DateTime dataAtual)
+        public async Task <List<PeiPedidoIten>> ProcessarItensAsync (List<CheckoutListItemRequest> itens, DateTime dataAtual)
         {
-            var lineItems = new List<CheckoutItemRequest>();
-
-            var produtos = await _getListaProdutoByIdsUseCase.GetListaProdutosAsync(itens);
-
-            foreach (var item in itens)
+            try
             {
-                var produto = produtos.FirstOrDefault(p => p.ProIdProduto == item.ProdutoId)
-                              ?? throw new InvalidOperationException($"Produto {item.ProdutoId} não encontrado.");
+                var lineItems = new List<PeiPedidoIten>();
 
-                var preco = _getPrecoVigenteUseCase.GetPrecoVigente(produto, dataAtual);
+                var produtos = await _getListaProdutoByIdsUseCase.GetListaProdutosAsync(itens);
 
-                lineItems.Add(new CheckoutItemRequest
+                foreach (var item in itens)
                 {
-                    PrecoId = preco.PriId,
-                    ProdutoId = produto.ProIdProduto,
-                    PrecoUnitario = preco.PriPrecoUnitario,
-                    ValorTotalItem = preco.PriPrecoUnitario * item.Quantity,
-                    ProdutoDescricao = produto.ProNmSubtitle,
-                    ProdutoImagem = produto.ProNmImgSrc,
-                    ProdutoNome = produto.ProNmTitle,
-                    Quantidade = item.Quantity
-                });
-            }
+                    var produto = produtos.FirstOrDefault(p => p.ProIdProduto == item.ProdutoId)
+                                  ?? throw new InvalidOperationException($"Produto {item.ProdutoId} não encontrado.");
 
-            return lineItems;
+                    var preco = _getPrecoVigenteUseCase.GetPrecoVigente(produto, dataAtual);
+
+                    lineItems.Add(new PeiPedidoIten
+                    {
+                        PeiIdPedidoItens = Guid.NewGuid(), 
+                        PeiIdProduto = produto.ProIdProduto,
+                        PeiIdProdutoNavigation = produto,
+
+                        PeiIdPreco = preco.PriId,
+                        PeiIdPrecoNavigation = preco,
+
+                        PeiIntQuantidade = item.Quantity,
+                        PeiIntValorUnit = preco.PriPrecoUnitario,
+                        PeiIntValorTotal = preco.PriPrecoUnitario * item.Quantity
+                    });
+                }
+
+                return lineItems;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
