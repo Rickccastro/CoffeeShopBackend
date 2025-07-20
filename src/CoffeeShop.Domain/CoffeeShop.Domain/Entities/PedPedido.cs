@@ -8,7 +8,7 @@ public partial class PedPedido
 
     public string PedEnumStatusPedido { get; set; } = null!;
 
-    public long PedIntValorTotal { get; set; }
+    public decimal PedIntValorTotal { get; set; }
 
     public DateOnly PedDateCriacao { get; set; }
 

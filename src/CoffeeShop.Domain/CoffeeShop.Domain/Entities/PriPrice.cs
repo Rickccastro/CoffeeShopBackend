@@ -6,7 +6,7 @@ public partial class PriPrice
 
     public string PriIdProduto { get; set; } = null!;
 
-    public long PriPrecoUnitario { get; set; }
+    public decimal PriPrecoUnitario { get; set; }
 
     public DateTime PriDataInicio { get; set; }
 

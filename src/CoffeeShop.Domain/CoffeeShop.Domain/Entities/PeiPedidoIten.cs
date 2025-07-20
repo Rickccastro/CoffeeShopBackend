@@ -12,9 +12,9 @@ public partial class PeiPedidoIten
 
     public long PeiIntQuantidade { get; set; }
 
-    public long PeiIntValorUnit { get; set; }
+    public decimal PeiIntValorUnit { get; set; }
 
-    public long PeiIntValorTotal { get; set; }
+    public decimal PeiIntValorTotal { get; set; }
 
     public virtual PedPedido PeiIdPedidoNavigation { get; set; } = null!;
 
