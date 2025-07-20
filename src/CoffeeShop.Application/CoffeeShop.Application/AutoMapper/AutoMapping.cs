@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using CoffeeShop.Application.ExternalServices.DTO.Stripe;
 using CoffeeShop.Communication.Requests.User;
 using CoffeeShop.Communication.Responses;
 using CoffeeShop.Domain.Entities;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
 namespace CoffeeShop.Application.AutoMapper
 {
     public class AutoMapping : Profile
@@ -15,11 +15,13 @@ namespace CoffeeShop.Application.AutoMapper
 
         private void RequestToEntity()
         {
-            CreateMap<CheckoutItemRequest, PeiPedidoIten>()
-    .ForMember(dest => dest.PeiIdProduto, opt => opt.MapFrom(src => src.ProdutoId))
-    .ForMember(dest => dest.PeiIdPreco, opt => opt.MapFrom(src => src.PrecoId))
-    .ForMember(dest => dest.PeiIntQuantidade, opt => opt.MapFrom(src => src.Quantidade))
-    .ForMember(dest => dest.PeiIntValorUnit, opt => opt.MapFrom(src => src.PrecoUnitario));
+        //    CreateMap<CheckoutItemRequest, PeiPedidoIten>()
+        //.ForMember(dest => dest.PeiIdPedidoItens, opt => opt.MapFrom(_ => Guid.NewGuid()))
+        //.ForMember(dest => dest.PeiIdProduto, opt => opt.MapFrom(src => src.Produto.ProIdProduto))
+        //.ForMember(dest => dest.PeiIdPreco, opt => opt.MapFrom(src => src.PrecoId))
+        //.ForMember(dest => dest.PeiIntQuantidade, opt => opt.MapFrom(src => src.Quantidade))
+        //.ForMember(dest => dest.PeiIntValorUnit, opt => opt.MapFrom(src => src.PrecoUnitario))
+        //.ForMember(dest => dest.PeiIntValorTotal, opt => opt.MapFrom(src => src.ValorTotalItem));
 
 
             CreateMap<UserRequest, UsrUsuario>()
