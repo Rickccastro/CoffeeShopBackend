@@ -10,7 +10,7 @@ namespace CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos
         {
         }
 
-        public async Task<List<ProProduto>> ObterPorIdsStringAsync(List<string> listaIdsProduto)
+        public async Task<List<ProProduto>> ObterListaIdsProdutosAsync(List<string> listaIdsProduto)
         {
             return await _context.ProProdutos
                 .AsNoTracking()
