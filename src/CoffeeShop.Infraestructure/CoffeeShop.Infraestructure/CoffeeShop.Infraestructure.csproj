@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Security\" />
+    <Compile Remove="Security\**" />
+    <EmbeddedResource Remove="Security\**" />
+    <None Remove="Security\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CoffeeShop.Application\CoffeeShop.Application\CoffeeShop.Application.csproj" />
     <ProjectReference Include="..\..\CoffeeShop.Domain\CoffeeShop.Domain\CoffeeShop.Domain.csproj" />
   </ItemGroup>
 
