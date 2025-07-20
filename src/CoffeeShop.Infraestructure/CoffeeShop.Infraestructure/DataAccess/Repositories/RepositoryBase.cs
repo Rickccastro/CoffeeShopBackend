@@ -25,6 +25,18 @@ namespace CoffeeShop.Infraestructure.DataAccess.Repositories
             await _dbSet.AddRangeAsync(entities);
         }
 
+        public void AttachEntities<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+        {
+            foreach (var entity in entities)
+            {
+                var entry = _context.Entry(entity);
+                if (entry.State == EntityState.Detached)
+                {
+                    _context.Set<TEntity>().Attach(entity);
+                }
+            }
+        }
+
         public virtual async Task<T> ObterPorPropriedadeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;
@@ -49,7 +61,14 @@ namespace CoffeeShop.Infraestructure.DataAccess.Repositories
 
         public virtual async Task AdicionarAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
+            try
+            {
+                await _dbSet.AddAsync(entity);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public virtual async Task AtualizarAsync(T entity)

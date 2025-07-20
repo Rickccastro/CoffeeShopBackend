@@ -11,5 +11,7 @@ namespace CoffeeShop.Domain.Repositories
         Task AdicionarListaAsync(IEnumerable<T> entities);
         Task AtualizarAsync(T entity);
         Task RemoverAsync(T entity);
+
+        void AttachEntities<TEntity>(IEnumerable<TEntity> entities) where TEntity : class;
     }
 }
