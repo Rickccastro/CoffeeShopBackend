@@ -1,5 +1,5 @@
-﻿using CoffeeShop.Domain.Entities;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
+﻿using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+using CoffeeShop.Domain.Entities;
 
 namespace CoffeeShop.Application.UseCase.Pedido.Create
 {

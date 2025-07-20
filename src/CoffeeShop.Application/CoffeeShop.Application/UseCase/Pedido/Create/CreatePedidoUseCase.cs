@@ -1,8 +1,8 @@
-﻿using CoffeeShop.Application.UseCase.Pedido.GetTotalValorPedido;
+﻿using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+using CoffeeShop.Application.UseCase.Pedido.GetTotalValorPedido;
 using CoffeeShop.Domain;
 using CoffeeShop.Domain.Entities;
 using CoffeeShop.Domain.Enums;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
 using CoffeeShop.Domain.Repositories.Especificas;
 
 namespace CoffeeShop.Application.UseCase.Pedido.Create
@@ -31,7 +31,7 @@ namespace CoffeeShop.Application.UseCase.Pedido.Create
             var pedido = new PedPedido
             {
                 PedIdPedido = pedidoId,
-                PedUsrId = usuarioId,
+                PedUsrId = usuarioId, 
                 PedEnumStatusPedido = PedidoStatus.Pendente.ToString().ToUpper(),
                 PedIntValorTotal = _getTotalValorPedidoUseCase.CalculateTotalValorPedido(pedidoItens),
                 PedDateCriacao = DateOnly.FromDateTime(DateTime.UtcNow),
@@ -52,9 +52,10 @@ namespace CoffeeShop.Application.UseCase.Pedido.Create
         }
             };
 
-            await _pedidoRepository.AdicionarAsync(pedido);
+                _pedidoRepository.AttachProdutoAndPrice(pedidoItens);
+                await _pedidoRepository.AdicionarAsync(pedido);
 
-            await _unitOfWork.Commit();
+                await _unitOfWork.Commit();
             return pedido;
         }
     }
