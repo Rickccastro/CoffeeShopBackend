@@ -1,19 +1,20 @@
-﻿using CoffeeShop.Domain.Entities;
+﻿using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+using CoffeeShop.Domain.Entities;
 
 namespace CoffeeShop.Application.UseCase.PedidoItem.CreatePedidoItem
 {
     public class CreatePedidoItemUseCase : ICreatePedidoItemUseCase
     {
-        public PeiPedidoIten CriarPedidoItem(ProProduto produto, PriPrice preco, long quantidade, long subtotal)
+        public PeiPedidoIten CriarPedidoItem(CheckoutItemRequest checkoutItem)
         {
             return new PeiPedidoIten
             {
                 PeiIdPedidoItens = Guid.NewGuid(),
-                PeiIdProduto = produto.ProIdProduto,
-                PeiIdPreco = preco.PriId,
-                PeiIntValorUnit = preco.PriPrecoUnitario,
-                PeiIntQuantidade = quantidade,
-                PeiIntValorTotal = subtotal
+                PeiIdProduto = checkoutItem.Produto.ProIdProduto,
+                PeiIdPreco = checkoutItem.Preco.PriId,
+                PeiIntValorUnit = checkoutItem.Preco.PriPrecoUnitario,
+                PeiIntQuantidade = checkoutItem.Quantidade,
+                PeiIntValorTotal = checkoutItem.ValorTotalItem
             };
         }
     }
