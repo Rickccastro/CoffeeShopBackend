@@ -1,6 +1,7 @@
-﻿using CoffeeShop.Domain;
-using CoffeeShop.Domain.ExternalServices.AWS.Email;
-using CoffeeShop.Domain.ExternalServices.Stripe;
+﻿using CoffeeShop.Application.ExternalServices.Contracts.AWS;
+using CoffeeShop.Application.ExternalServices.Contracts.Stripe;
+using CoffeeShop.Application.ExternalServices.DTO.AWS;
+using CoffeeShop.Domain;
 using CoffeeShop.Domain.Repositories.Especificas;
 using CoffeeShop.Infraestructure.DataAccess;
 using CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos;
@@ -44,6 +45,7 @@ namespace CoffeeShop.Infraestructure
             services.AddScoped<IPedidoItensRepository, PedidoItensRepository>();
             services.AddScoped<IPrecoRepository, PrecoRepository>();
         }
+
         private static void AddExternalServices(IServiceCollection services, IConfiguration configuration)
         {
             var awsSettings = new AwsEmailSettings
