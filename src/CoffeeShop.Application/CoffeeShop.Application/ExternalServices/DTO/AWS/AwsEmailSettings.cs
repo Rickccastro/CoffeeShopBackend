@@ -1,5 +1,5 @@
-﻿namespace CoffeeShop.Domain.ExternalServices.AWS.Email
-{
+﻿namespace CoffeeShop.Application.ExternalServices.DTO.AWS;
+
     public class AwsEmailSettings
     {
         public string Region { get; set; } = null!;
@@ -8,4 +8,4 @@
         public string FromAddress { get; set; } = null!;
         public string ConfigurationSet { get; set; } = null!;
     }
-}
+
