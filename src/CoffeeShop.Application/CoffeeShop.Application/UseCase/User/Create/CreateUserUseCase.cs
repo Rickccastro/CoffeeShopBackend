@@ -31,7 +31,6 @@ namespace CoffeeShop.Application.UseCase.Customer.Create
 
             var usuario = _mapper.Map<UsrUsuario>(request);
 
-            _mapper.Map<UserRequest>(usuario);
 
             await _userRepository.AdicionarAsync(usuario);
             await _unitOfWork.Commit();
