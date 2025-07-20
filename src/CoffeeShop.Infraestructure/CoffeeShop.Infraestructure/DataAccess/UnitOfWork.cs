@@ -14,17 +14,13 @@ namespace CoffeeShop.Infraestructure.DataAccess
         {
             try
             {
-                _dbContext.ChangeTracker.AutoDetectChangesEnabled = false;
+                _dbContext.ChangeTracker.DetectChanges();
 
                 await _dbContext.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                _dbContext.ChangeTracker.AutoDetectChangesEnabled = true;
+                throw new Exception("Erro ao executar Commit no UnitOfWork", ex);
             }
         }
         public async Task ExecuteAsync(Func<Task> action)
