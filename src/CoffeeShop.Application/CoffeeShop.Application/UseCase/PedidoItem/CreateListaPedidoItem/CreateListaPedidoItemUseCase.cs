@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using CoffeeShop.Application.ExternalServices.DTO.Stripe;
 using CoffeeShop.Application.UseCase.PedidoItem.CreateListaPedidoItem;
 using CoffeeShop.Domain.Entities;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
 
 public class CreateListaPedidoItemUseCase : ICreateListaPedidoItemUseCase
 {
