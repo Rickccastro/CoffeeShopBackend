@@ -1,6 +1,5 @@
-﻿using CoffeeShop.Communication.Requests.Checkout;
+﻿using CoffeeShop.Application.ExternalServices.DTO.Stripe;
 using CoffeeShop.Domain.Entities;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
 
 namespace CoffeeShop.Application.UseCase.PedidoItem.CreateListaPedidoItem
 {
