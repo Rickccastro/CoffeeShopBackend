@@ -1,7 +1,8 @@
 ﻿using Amazon;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
-using CoffeeShop.Domain.ExternalServices.AWS.Email;
+using CoffeeShop.Application.ExternalServices.Contracts.AWS;
+using CoffeeShop.Application.ExternalServices.DTO.AWS;
 using Microsoft.Extensions.Options;
 
 namespace CoffeeShop.Infraestructure.ExternalServices.AWS.EmailService

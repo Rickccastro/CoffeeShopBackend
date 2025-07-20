@@ -1,4 +1,5 @@
-﻿using CoffeeShop.Domain.ExternalServices.AWS.Email;
+﻿
+using CoffeeShop.Application.ExternalServices.Contracts.AWS;
 
 namespace CoffeeShop.Application.UseCase.Email.EmailServiceNotification
 {

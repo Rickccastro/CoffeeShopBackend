@@ -1,5 +1,5 @@
-﻿using CoffeeShop.Domain.ExternalServices.Stripe;
-using CoffeeShop.Domain.ExternalServices.Stripe.Entities;
+﻿using CoffeeShop.Application.ExternalServices.Contracts.Stripe;
+using CoffeeShop.Application.ExternalServices.DTO.Stripe;
 using Stripe.Checkout;
 
 namespace CoffeeShop.Infraestructure.ExternalServices.Stripe.GetSession
