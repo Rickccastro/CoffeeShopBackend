@@ -31,10 +31,9 @@ namespace CoffeeShop.Application.UseCase.Checkout.Create
 
         public async Task<CheckoutSessionResult> CreateCheckout(CheckoutRequest request)
         {
-            var dataAtual = DateTime.UtcNow;  
-            
-            var listaPedidoItem = await _createCheckoutLineItemsUseCase.ProcessarItensAsync(request.Items, dataAtual);
-            //var listaPedidoItem = await _createListaPedidoItemUseCase.CreateListaPedidoItem(listaLineItems, dataAtual);
+            var dataAtual = DateTime.UtcNow;
+
+            var listaPedidoItem = await _createListaPedidoItemUseCase.CreateListaPedidoItem(request.Items);
 
             var session = _createCheckoutSession.CreateSession(listaPedidoItem);
 
