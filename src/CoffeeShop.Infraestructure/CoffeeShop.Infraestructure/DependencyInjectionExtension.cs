@@ -7,6 +7,7 @@ using CoffeeShop.Infraestructure.DataAccess;
 using CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos;
 using CoffeeShop.Infraestructure.ExternalServices.AWS.EmailService;
 using CoffeeShop.Infraestructure.ExternalServices.Stripe.CreateSession;
+using CoffeeShop.Infraestructure.ExternalServices.Stripe.ExpireCheckoutSession;
 using CoffeeShop.Infraestructure.ExternalServices.Stripe.GetSession;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -63,6 +64,7 @@ namespace CoffeeShop.Infraestructure
             services.AddScoped<ISesEmailService>(sp => new SesEmailService(options));
             services.AddScoped<ICreateCheckoutSession, CreateCheckoutSession>();
             services.AddScoped<IGetSessionStatus, GetSessionStatus>();
+            services.AddScoped<IExpireCheckoutSession, ExpireCheckoutSession>();
         }
     }
 }
