@@ -1,6 +1,6 @@
 ﻿using CoffeeShop.Application.AutoMapper;
 using CoffeeShop.Application.UseCase.Checkout.Create;
-using CoffeeShop.Application.UseCase.Checkout.CreateCheckoutLineItems;
+using CoffeeShop.Application.UseCase.Checkout.Expire;
 using CoffeeShop.Application.UseCase.Checkout.GetSessionStatus;
 using CoffeeShop.Application.UseCase.Customer.Create;
 using CoffeeShop.Application.UseCase.Customer.Login;
@@ -41,9 +41,9 @@ namespace CoffeeShop.Application
             services.AddScoped<IGetPrecoVigenteUseCase, GetPrecoVigenteUseCase>();
             services.AddScoped<IGetTotalValorPedidoUseCase, GetTotalValorPedidoUseCase>();
             services.AddScoped<ICreateListaPedidoItemUseCase, CreateListaPedidoItemUseCase>();
-            services.AddScoped<ICreateCheckoutLineItemsUseCase, CreateCheckoutLineItemsUseCase>();
             services.AddScoped<IGetListaProdutoByIdsUseCase, GetListaProdutoByIdsUseCase>();
             services.AddScoped<ICreatePedidoUseCase, CreatePedidoUseCase>();
+            services.AddScoped<IExpireCheckoutUseCase, ExpireCheckoutUseCase>();
         }
     }
 }
