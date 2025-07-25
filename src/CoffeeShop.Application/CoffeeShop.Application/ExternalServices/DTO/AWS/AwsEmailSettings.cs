@@ -7,5 +7,10 @@
         public string SecretKey { get; set; } = null!;
         public string FromAddress { get; set; } = null!;
         public string ConfigurationSet { get; set; } = null!;
+
+        // Específicos para serviços
+        public string? CognitoClientId { get; set; } = null!;
+        public string? ClientSecret { get; set; } = null!;
+        public string? CognitoUserPoolId { get; set; } = null!;
     }
 
