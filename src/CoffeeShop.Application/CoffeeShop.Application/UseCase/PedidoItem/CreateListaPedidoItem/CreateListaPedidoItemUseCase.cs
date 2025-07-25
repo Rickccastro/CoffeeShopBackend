@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CoffeeShop.Application.ExternalServices.DTO.Stripe;
-using CoffeeShop.Application.UseCase.Checkout.CreateCheckoutLineItems;
 using CoffeeShop.Application.UseCase.PedidoItem.CreateListaPedidoItem;
 using CoffeeShop.Application.UseCase.PedidoItem.CreatePedidoItem;
 using CoffeeShop.Application.UseCase.Preco.GetPrecoVigente;
