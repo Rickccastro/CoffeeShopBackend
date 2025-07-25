@@ -1,8 +1,5 @@
 ﻿using CoffeeShop.Application.UseCase.Customer.Create;
-using CoffeeShop.Application.UseCase.Customer.Login;
-using CoffeeShop.Communication.Requests.Customer;
 using CoffeeShop.Communication.Requests.User;
-using CoffeeShop.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeShop.Api.Controllers
@@ -18,15 +15,6 @@ namespace CoffeeShop.Api.Controllers
             var resultCreateCheckoutUseCase =  await useCase.CreateUser(request);
 
             return Ok(resultCreateCheckoutUseCase);
-        }
-
-        [Route("login-user")]
-        [HttpPost]
-        public async Task<ActionResult> Login([FromServices] ILoginUserUseCase useCase, [FromBody] LoginRequest request)
-        {
-            var userResponse = await useCase.LoginUser(request);
-
-            return Ok(userResponse);
         }
     }
 }
