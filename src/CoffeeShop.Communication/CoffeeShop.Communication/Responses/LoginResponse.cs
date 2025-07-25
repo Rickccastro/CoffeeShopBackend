@@ -2,8 +2,9 @@
 {
     public class LoginResponse
     {
-        public required Guid Id { get; set; }
+        //public required Guid Id { get; set; }
         public required string Nome { get; set; }
+        public required string Token { get; set; }
         public required string Email { get; set; }
     }
 }
