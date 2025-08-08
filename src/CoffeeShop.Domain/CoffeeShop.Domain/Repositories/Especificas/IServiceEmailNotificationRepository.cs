@@ -2,7 +2,7 @@
 
 namespace CoffeeShop.Domain.Repositories.Especificas
 {
-    public interface IUserRepository : IRepositoryBase<UsrUser>
+    public interface IServiceEmailNotificationRepository : IRepositoryBase<SenServiceEmailNotification>
     {
     }
 }

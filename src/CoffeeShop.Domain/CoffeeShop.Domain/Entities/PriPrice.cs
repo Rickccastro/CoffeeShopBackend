@@ -1,18 +1,21 @@
-﻿namespace CoffeeShop.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace CoffeeShop.Domain.Entities;
 
 public partial class PriPrice
 {
-    public string PriId { get; set; } = null!;
+    public string PriIdPrice { get; set; } = null!;
 
-    public string PriIdProduto { get; set; } = null!;
+    public string PriProductId { get; set; } = null!;
 
-    public decimal PriPrecoUnitario { get; set; }
+    public DateTime PriDateStart { get; set; }
 
-    public DateTime PriDataInicio { get; set; }
+    public DateTime? PriDateEnd { get; set; }
 
-    public DateTime? PriDataFim { get; set; }
+    public decimal PriIntUnitPrice { get; set; }
 
-    public virtual ICollection<PeiPedidoIten> PeiPedidoItens { get; set; } = new List<PeiPedidoIten>();
+    public virtual ICollection<OriOrderItem> OriOrderItems { get; set; } = new List<OriOrderItem>();
 
-    public virtual ProProduto PriIdProdutoNavigation { get; set; } = null!;
+    public virtual ProProduct PriProduct { get; set; } = null!;
 }
