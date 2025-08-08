@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CoffeeShop.Application.ExternalServices.DTO.Stripe;
 using CoffeeShop.Communication.Requests.User;
 using CoffeeShop.Communication.Responses;
 using CoffeeShop.Domain.Entities;
@@ -15,7 +14,7 @@ namespace CoffeeShop.Application.AutoMapper
 
         private void RequestToEntity()
         {
-        //    CreateMap<CheckoutItemRequest, PeiPedidoIten>()
+        //    CreateMap<CheckoutItemRequest, OriOrderItem>()
         //.ForMember(dest => dest.PeiIdPedidoItens, opt => opt.MapFrom(_ => Guid.NewGuid()))
         //.ForMember(dest => dest.PeiIdProduto, opt => opt.MapFrom(src => src.Produto.ProIdProduto))
         //.ForMember(dest => dest.PeiIdPreco, opt => opt.MapFrom(src => src.PrecoId))
@@ -24,22 +23,22 @@ namespace CoffeeShop.Application.AutoMapper
         //.ForMember(dest => dest.PeiIntValorTotal, opt => opt.MapFrom(src => src.ValorTotalItem));
 
 
-            CreateMap<UserRequest, UsrUsuario>()
-              .ForMember(dest => dest.UsrEmail, opt => opt.MapFrom(src => new EsnEmailServicoNotificacao
+            CreateMap<UserRequest, UsrUser>()
+              .ForMember(dest => dest.SenServiceEmailNotifications, opt => opt.MapFrom(src => new SenServiceEmailNotification
               {
-                  EmailNm = src.EmailNm
+                  SenNmEmail = src.UsrEmailNm
               }))
               .AfterMap((src, dest) =>
               {
-                  dest.UsrId = Guid.NewGuid(); 
-                  dest.UsrEmail.EmailId = Guid.NewGuid();
-                  dest.UsrEmail.EmailUsrId = dest.UsrId;
+                  dest.UsrIdUser = Guid.NewGuid(); 
+                  dest.SenServiceEmailNotifications.SenIdServiceEmailNotification = Guid.NewGuid();
+                  dest.SenServiceEmailNotifications.SenUsrId = dest.UsrIdUser;
               });
         }
 
         private void EntityToResponse()
         {
-            CreateMap<UsrUsuario, UserResponse>();
+            CreateMap<UsrUser, UserResponse>();
         }
     }
 }
