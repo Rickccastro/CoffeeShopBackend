@@ -1,24 +1,28 @@
-﻿using Amazon;
-using Amazon.CognitoIdentityProvider;
-using Amazon.Runtime;
-using CoffeeShop.Application.ExternalServices.Contracts.AWS;
-using CoffeeShop.Application.ExternalServices.Contracts.Stripe;
-using CoffeeShop.Application.ExternalServices.DTO.AWS;
+﻿using CoffeeShop.Application.Services.ExternalServices.Contracts.AWS;
+using CoffeeShop.Application.Services.ExternalServices.Contracts.Stripe;
+using CoffeeShop.Application.Services.ExternalServices.DTO.AWS;
+using CoffeeShop.Application.Services.ExternalServices.DTO.Stripe;
+using CoffeeShop.Application.Services.InternalServices;
+using CoffeeShop.Application.Services.InternalServices.Security.Cryptography;
+using CoffeeShop.Application.Services.InternalServices.Security.Token;
 using CoffeeShop.Domain;
+using CoffeeShop.Domain.Entities;
 using CoffeeShop.Domain.Repositories.Especificas;
 using CoffeeShop.Domain.Repositories.LocalRepository;
 using CoffeeShop.Infraestructure.DataAccess;
 using CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos;
 using CoffeeShop.Infraestructure.DataAccess.Repositories.LocalRepository;
-using CoffeeShop.Infraestructure.ExternalServices.AWS.EmailService;
-using CoffeeShop.Infraestructure.ExternalServices.AWS.JWT;
-using CoffeeShop.Infraestructure.ExternalServices.Stripe.CreateSession;
-using CoffeeShop.Infraestructure.ExternalServices.Stripe.ExpireCheckoutSession;
-using CoffeeShop.Infraestructure.ExternalServices.Stripe.GetSession;
+using CoffeeShop.Infraestructure.Services.ExternalServices.AWS.EmailService;
+using CoffeeShop.Infraestructure.Services.ExternalServices.Stripe.CreateCheckout;
+using CoffeeShop.Infraestructure.Services.ExternalServices.Stripe.ExpireCheckoutSession;
+using CoffeeShop.Infraestructure.Services.ExternalServices.Stripe.GetSession;
+using CoffeeShop.Infraestructure.Services.ExternalServices.Stripe.WeebHook;
+using CoffeeShop.Infraestructure.Services.InternalServices;
+using CoffeeShop.Infraestructure.Services.InternalServices.Security.Cryptography;
+using CoffeeShop.Infraestructure.Services.InternalServices.Security.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
@@ -31,6 +35,7 @@ namespace CoffeeShop.Infraestructure
             AddRepositories(services);
             AddDbContext(services, configuration);
             AddExternalServices(services, configuration);
+            AddInternalServices(services, configuration);
         }
 
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
@@ -46,16 +51,24 @@ namespace CoffeeShop.Infraestructure
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IProdutoRepository, ProdutoRepository>();
-            services.AddScoped<IEmailServiceNotificationRepository, EmailServiceNotificationRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IServiceEmailNotificationRepository, ServiceEmailNotificationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IPedidoRepository, PedidoRepository>();
-            services.AddScoped<IPedidoItensRepository, PedidoItensRepository>();
-            services.AddScoped<IPrecoRepository, PrecoRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemsRepository, OrderItemRepository>();
+            services.AddScoped<IPriceRepository, PriceRepository>();
+            services.AddScoped<IPaymentsRepository, PaymentRepository>();
         }
 
         private static void AddExternalServices(IServiceCollection services, IConfiguration configuration)
         {
+            var stripeSettings = configuration.GetSection("Stripe").Get<StripeSettings>()!;
+            services.AddSingleton(stripeSettings);
+
+            // Registra StripeSettings como singleton para acesso direto (opcional)
+            Stripe.StripeConfiguration.ApiKey = stripeSettings.SecretKey;
+
+
             AddLocalRepositoryConfig(services,configuration);
 
             var awsSettings = configuration.GetSection("AWS").Get<AwsEmailSettings>()!;
@@ -66,31 +79,26 @@ namespace CoffeeShop.Infraestructure
             services.AddScoped<ISesEmailService>(sp =>
                 new SesEmailService(awsOptions));
 
-            services.AddScoped<IJwtTokenService>(sp =>
-            {
-                var creds = new BasicAWSCredentials(awsSettings.AccessKey, awsSettings.SecretKey);
-                var region = RegionEndpoint.GetBySystemName(awsSettings.Region);
-                var client = new AmazonCognitoIdentityProviderClient(creds, region);
 
-                return new AuthService(client, awsSettings.CognitoClientId!, awsSettings.ClientSecret, awsSettings.CognitoUserPoolId!);
-            });
-            services.AddScoped<ICreateUserAuth>(sp =>
-            {
-                var creds = new BasicAWSCredentials(awsSettings.AccessKey, awsSettings.SecretKey);
-                var region = RegionEndpoint.GetBySystemName(awsSettings.Region);
-                var client = new AmazonCognitoIdentityProviderClient(creds, region);
-
-                return new CreateUserAuth(client, awsSettings.CognitoUserPoolId!);
-            });
-            services.AddScoped<ICreateCheckoutSession, CreateCheckoutSession>();
             services.AddScoped<IGetSessionStatus, GetSessionStatus>();
+            services.AddScoped<IWebHookHandler, WebHookHandler>();
+            services.AddScoped<ICreateCheckoutSession, CreateCheckoutSession>();
             services.AddScoped<IExpireCheckoutSession, ExpireCheckoutSession>();
         }
+        private static void AddInternalServices(IServiceCollection services, IConfiguration configuration)
+        { 
+            var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpiresMinutes");
+            var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
 
+            var stripeSettings = configuration.GetSection("Settings:Jwt").Get<StripeSettings>()!;
+            services.AddSingleton(stripeSettings);
 
+            services.AddScoped<IAccessTokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<IPasswordEncripter, BCryptor>();
+            services.AddScoped<ILoggedUser, LoggedUser>();
+        }
         private static void AddLocalRepositoryConfig(IServiceCollection services, IConfiguration configuration)
         {
-
             var redisConnection = configuration.GetConnectionString("Redis")!;
             var multiplexer = ConnectionMultiplexer.Connect(redisConnection);
             services.AddSingleton<IConnectionMultiplexer>(multiplexer);
