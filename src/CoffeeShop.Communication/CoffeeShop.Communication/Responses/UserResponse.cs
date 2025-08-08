@@ -2,6 +2,6 @@
 {
     public class UserResponse
     {
-        public string UsrNm { get; set; } = null!;
+        public string UsrNmName { get; set; } = null!;
     }
 }

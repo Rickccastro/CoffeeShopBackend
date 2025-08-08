@@ -8,7 +8,6 @@
 
     public class CheckoutRequest
     {
-        public string UserId { get; set; }
         public List<CheckoutListItemRequest> Items { get; set; }
     }
 }

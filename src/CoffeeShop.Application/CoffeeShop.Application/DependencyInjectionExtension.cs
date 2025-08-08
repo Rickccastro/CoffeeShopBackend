@@ -1,5 +1,5 @@
 ﻿using CoffeeShop.Application.AutoMapper;
-using CoffeeShop.Application.UseCase.Checkout.Create;
+using CoffeeShop.Application.Orchestrator.Checkout.Create;
 using CoffeeShop.Application.UseCase.Checkout.Expire;
 using CoffeeShop.Application.UseCase.Checkout.GetSessionStatus;
 using CoffeeShop.Application.UseCase.Customer.Create;
@@ -13,6 +13,7 @@ using CoffeeShop.Application.UseCase.PedidoItem.CreatePedidoItem;
 using CoffeeShop.Application.UseCase.Preco.GetPrecoVigente;
 using CoffeeShop.Application.UseCase.Preco.GetPrecoVIgente;
 using CoffeeShop.Application.UseCase.Produto.GetById;
+using CoffeeShop.Application.UseCase.User.GetUser;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoffeeShop.Application
@@ -32,12 +33,14 @@ namespace CoffeeShop.Application
 
         public static void AddUseCase(IServiceCollection services)
         {
-            services.AddScoped<ICreateCheckoutUseCase, CreateCheckoutUseCase>();
+            services.AddScoped<ICreateCheckoutOrchestrator, CreateCheckoutOrchestrator>();
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+            services.AddScoped<IGetUserUseCase, GetUserUseCase>();
             services.AddScoped<ILoginNotificationUseCase, LoginNotificationUseCase>();
             services.AddScoped<ILoginValidadoUseCase, LoginValidadoUseCase>();
-            services.AddScoped<IEmailSenderNotification, EmailSenderNotificationUseCase>();
+            services.AddScoped<IEmailSenderNotificationUseCase, EmailSenderNotificationUseCase>();
             services.AddScoped<IGetSessionStatusUseCase, GetSessionStatusUseCase>();
+            //services.AddScoped<IGetPedidoStatusUseCase, GetPedidoStatusUseCase>();
             services.AddScoped<ICreatePedidoItemUseCase, CreatePedidoItemUseCase>();
             services.AddScoped<IGetPrecoVigenteUseCase, GetPrecoVigenteUseCase>();
             services.AddScoped<IGetTotalValorPedidoUseCase, GetTotalValorPedidoUseCase>();

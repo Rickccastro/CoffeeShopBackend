@@ -1,10 +1,12 @@
-﻿namespace CoffeeShop.Communication.Responses
+﻿using System.Text.Json.Serialization;
+
+namespace CoffeeShop.Communication.Responses
 {
     public class LoginResponse
     {
-        //public required Guid Id { get; set; }
-        public required string Nome { get; set; }
-        public required string Token { get; set; }
-        public required string Email { get; set; }
+        public required string UsrNm { get; set; } = null!;
+        public required string EmailNm { get; set; }
+        public string? Token { get; set; }
+        public string? UserId { get; set; }
     }
 }

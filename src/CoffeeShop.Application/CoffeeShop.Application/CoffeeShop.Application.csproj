@@ -18,4 +18,8 @@
     <ProjectReference Include="..\..\CoffeeShop.Domain\CoffeeShop.Domain\CoffeeShop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCase\Payments\" />
+  </ItemGroup>
+
 </Project>
