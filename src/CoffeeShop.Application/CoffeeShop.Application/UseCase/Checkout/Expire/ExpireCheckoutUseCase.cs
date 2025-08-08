@@ -1,5 +1,4 @@
-﻿using CoffeeShop.Application.ExternalServices.Contracts.AWS;
-using CoffeeShop.Application.ExternalServices.Contracts.Stripe;
+﻿using CoffeeShop.Application.Services.ExternalServices.Contracts.Stripe;
 
 namespace CoffeeShop.Application.UseCase.Checkout.Expire;
 internal class ExpireCheckoutUseCase : IExpireCheckoutUseCase

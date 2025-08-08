@@ -6,14 +6,14 @@ namespace CoffeeShop.Application.UseCase.Produto.GetById
 {
     public class GetListaProdutoByIdsUseCase : IGetListaProdutoByIdsUseCase
     {
-        private readonly IProdutoRepository _produtoRepository;
+        private readonly IProductRepository _produtoRepository;
 
-        public GetListaProdutoByIdsUseCase(IProdutoRepository produtoRepository)
+        public GetListaProdutoByIdsUseCase(IProductRepository produtoRepository)
         {
             _produtoRepository = produtoRepository;
         }
 
-        public async Task<List<ProProduto>> GetListaProdutosAsync(List<CheckoutListItemRequest> items)
+        public async Task<List<ProProduct>> GetListaProdutosAsync(List<CheckoutListItemRequest> items)
         {
             var listaIdsProduto = items.Select(x => x.ProdutoId).Distinct().ToList();
 
@@ -22,7 +22,7 @@ namespace CoffeeShop.Application.UseCase.Produto.GetById
             // Validação: garantir que todos os produtos foram encontrados
             if (produtos.Count != listaIdsProduto.Count)
             {
-                var encontrados = produtos.Select(p => p.ProIdProduto);
+                var encontrados = produtos.Select(p => p.ProIdProduct);
                 var faltantes = listaIdsProduto.Except(encontrados);
                 throw new InvalidOperationException($"Produtos não encontrados: {string.Join(", ", faltantes)}");
             }

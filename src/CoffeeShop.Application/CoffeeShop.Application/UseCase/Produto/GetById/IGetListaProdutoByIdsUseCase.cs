@@ -5,7 +5,7 @@ namespace CoffeeShop.Application.UseCase.Produto.GetById
 {
     public interface IGetListaProdutoByIdsUseCase
     {
-        Task<List<ProProduto>> GetListaProdutosAsync(List<CheckoutListItemRequest> items);
+        Task<List<ProProduct>> GetListaProdutosAsync(List<CheckoutListItemRequest> items);
     }
 }
     

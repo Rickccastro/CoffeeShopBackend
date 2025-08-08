@@ -4,9 +4,9 @@ namespace CoffeeShop.Application.UseCase.Pedido.GetTotalValorPedido
 {
     public class GetTotalValorPedidoUseCase : IGetTotalValorPedidoUseCase
     {
-        public decimal CalculateTotalValorPedido(List<PeiPedidoIten> listaPedido)
+        public decimal CalculateTotalValorPedido(List<OriOrderItem> listaPedido)
         {
-            return listaPedido.Sum(item => item.PeiIntValorUnit * item.PeiIntQuantidade);
+            return listaPedido.Sum(item => item.OriIntValorUnit * item.OriIntQuantity);
         }
     }
 }

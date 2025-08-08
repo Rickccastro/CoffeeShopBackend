@@ -1,4 +1,4 @@
-﻿using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+﻿using CoffeeShop.Application.Services.ExternalServices.DTO.Stripe;
 using CoffeeShop.Application.UseCase.Pedido.GetTotalValorPedido;
 using CoffeeShop.Domain;
 using CoffeeShop.Domain.Entities;
@@ -9,13 +9,13 @@ namespace CoffeeShop.Application.UseCase.Pedido.Create
 {
     public class CreatePedidoUseCase : ICreatePedidoUseCase
     {
-        private readonly IPedidoRepository _pedidoRepository;
+        private readonly IOrderRepository _pedidoRepository;
         private readonly IGetTotalValorPedidoUseCase _getTotalValorPedidoUseCase;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreatePedidoUseCase(
-             IProdutoRepository produtoRepository, IPrecoRepository precoRepository,
-             IPedidoRepository pedidoRepository, IUnitOfWork unitOfWork,
+             IProductRepository produtoRepository, IPriceRepository precoRepository,
+             IOrderRepository pedidoRepository, IUnitOfWork unitOfWork,
              IGetTotalValorPedidoUseCase getTotalValorPedidoUseCase)
         {
             _pedidoRepository = pedidoRepository;
@@ -24,39 +24,37 @@ namespace CoffeeShop.Application.UseCase.Pedido.Create
         }
 
 
-        public async Task <PedPedido> CreatePedido(Guid usuarioId, List<PeiPedidoIten> pedidoItens, CheckoutSessionResult session)
+        public async Task <OrdOrder> CreatePedido(Guid userId, List<OriOrderItem> orderItems, CheckoutSessionResult session)
         {
-            var pedidoId = Guid.NewGuid();
+            var orderId = Guid.NewGuid();
+            var paymentId = Guid.NewGuid();
 
-            var pedido = new PedPedido
+            var order = new OrdOrder
             {
-                PedIdPedido = pedidoId,
-                PedUsrId = usuarioId, 
-                PedEnumStatusPedido = PedidoStatus.Pendente.ToString().ToUpper(),
-                PedIntValorTotal = _getTotalValorPedidoUseCase.CalculateTotalValorPedido(pedidoItens),
-                PedDateCriacao = DateOnly.FromDateTime(DateTime.UtcNow),
-                PedStripeSessionId = session.SessionId,
-                PedStripePaymentIntentId = session.PaymentIntentId,
-                PeiPedidoItens = pedidoItens,             
-                StrStripeSessaos = new List<StrStripeSessao>
-        {
-            new StrStripeSessao
-            {
-                StrIdStripeSessao = Guid.NewGuid(),
-                StrIdPedido = pedidoId,
-                StrIdSession = session.SessionId,
-                StrNmPaymentIntentId = session.PaymentIntentId,
-                StrNmStatus = session.Status,
-                StrEnumModo = "payment",
-            }
-        }
+                OrdIdOrder = orderId,
+                OrdUsrId = userId,
+                OrdEnumStatusOrder = OrderStatus.AWAITING_PAYMENT.ToValue(),
+                OrdIntTotalCostOrder = Convert.ToInt32(_getTotalValorPedidoUseCase.CalculateTotalValorPedido(orderItems)),
+                OrdDateCreated = DateTime.UtcNow,
+                PayPayments = new PayPayment
+                {
+                    PayIdPayment = session.SessionId,
+                    PayIdPaymentIntent = session.PaymentIntentId,
+                    PayDateCreated = DateTime.UtcNow,
+                    PayEnumStatus = session.Status.ToString().ToUpper(),
+                    PayNmReceiptUrl =  string.Empty,
+                    PayIntAmountTotal = Convert.ToInt32(_getTotalValorPedidoUseCase.CalculateTotalValorPedido(orderItems)),
+                    PayEnumRefundedStatus = PaymentRefunds.NONE.ToValue(),
+                    PayOrderId = orderId,
+                },
+                OriOrderItems = orderItems, 
             };
 
-                _pedidoRepository.AttachProdutoAndPrice(pedidoItens);
-                await _pedidoRepository.AdicionarAsync(pedido);
+                _pedidoRepository.AttachProdutoAndPrice(orderItems);
+                await _pedidoRepository.AdicionarAsync(order);
 
                 await _unitOfWork.Commit();
-            return pedido;
+            return order;
         }
     }
 }

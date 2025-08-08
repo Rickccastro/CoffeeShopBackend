@@ -1,5 +1,5 @@
-﻿using CoffeeShop.Application.ExternalServices.Contracts.Stripe;
-using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+﻿using CoffeeShop.Application.Services.ExternalServices.Contracts.Stripe;
+using CoffeeShop.Application.Services.ExternalServices.DTO.Stripe;
 using CoffeeShop.Communication.Requests.Checkout;
 
 

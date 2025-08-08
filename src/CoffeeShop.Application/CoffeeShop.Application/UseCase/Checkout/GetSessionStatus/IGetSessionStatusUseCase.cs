@@ -1,4 +1,4 @@
-﻿using CoffeeShop.Application.ExternalServices.DTO.Stripe;
+﻿using CoffeeShop.Application.Services.ExternalServices.DTO.Stripe;
 using CoffeeShop.Communication.Requests.Checkout;
 
 namespace CoffeeShop.Application.UseCase.Checkout.GetSessionStatus

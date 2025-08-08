@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CoffeeShop.Application.ExternalServices.DTO.Stripe;
 using CoffeeShop.Application.UseCase.PedidoItem.CreateListaPedidoItem;
 using CoffeeShop.Application.UseCase.PedidoItem.CreatePedidoItem;
 using CoffeeShop.Application.UseCase.Preco.GetPrecoVigente;
@@ -25,32 +24,28 @@ public class CreateListaPedidoItemUseCase : ICreateListaPedidoItemUseCase
         _getPrecoVigenteUseCase = getPrecoVigenteUseCase;
     }
 
-    public async Task<List<PeiPedidoIten>> CreateListaPedidoItem(List<CheckoutListItemRequest> itens)
+    public async Task<List<OriOrderItem>> CreateListaPedidoItem(List<CheckoutListItemRequest> itens)
     {
-        var lineItems = new List<PeiPedidoIten>();
+        var lineItems = new List<OriOrderItem>();
         var dataAtual = DateTime.UtcNow;
 
         var produtos = await _getListaProdutoByIdsUseCase.GetListaProdutosAsync(itens);
 
         foreach (var item in itens)
         {
-            var produto = produtos.FirstOrDefault(p => p.ProIdProduto == item.ProdutoId)
+            var produto = produtos.FirstOrDefault(p => p.ProIdProduct == item.ProdutoId)
                           ?? throw new InvalidOperationException($"Produto {item.ProdutoId} não encontrado.");
 
             var preco = _getPrecoVigenteUseCase.GetPrecoVigente(produto, dataAtual);
 
-            lineItems.Add(new PeiPedidoIten
+            lineItems.Add(new OriOrderItem
             {
-                PeiIdPedidoItens = Guid.NewGuid(),
-                PeiIdProduto = produto.ProIdProduto,
-                PeiIdProdutoNavigation = produto,
-
-                PeiIdPreco = preco.PriId,
-                PeiIdPrecoNavigation = preco,
-
-                PeiIntQuantidade = item.Quantity,
-                PeiIntValorUnit = preco.PriPrecoUnitario,
-                PeiIntValorTotal = preco.PriPrecoUnitario * item.Quantity
+                OriIdItemsOrder = Guid.NewGuid(),
+                OriIdProductNavigation = produto,
+                OriIdPriceNavigation = preco,
+                OriIntQuantity = item.Quantity,
+                OriIntValorUnit = preco.PriIntUnitPrice,
+                OriIntTotalValueItem = preco.PriIntUnitPrice * item.Quantity
             });
         }
 

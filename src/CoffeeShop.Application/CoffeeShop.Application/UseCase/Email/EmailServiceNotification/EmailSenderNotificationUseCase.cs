@@ -1,9 +1,8 @@
-﻿
-using CoffeeShop.Application.ExternalServices.Contracts.AWS;
+﻿using CoffeeShop.Application.Services.ExternalServices.Contracts.AWS;
 
 namespace CoffeeShop.Application.UseCase.Email.EmailServiceNotification
 {
-    public class EmailSenderNotificationUseCase : IEmailSenderNotification
+    public class EmailSenderNotificationUseCase : IEmailSenderNotificationUseCase
     {
         private readonly ISesEmailService _sesEmailService;
 
