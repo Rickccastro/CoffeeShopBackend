@@ -2,7 +2,6 @@
 using CoffeeShop.Application.UseCase.Login.LoginValidado;
 using CoffeeShop.Communication.Requests.Customer;
 using CoffeeShop.Communication.Requests.Login;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeShop.Api.Controllers;
@@ -16,12 +15,12 @@ public class LoginController : ControllerBase
     {
         await useCase.LoginNotification(request);
 
-        return Ok("Codigo Enviado");
+        return Ok();
     }
 
     [Route("validated-login-user")]
     [HttpPost]
-    public async Task<ActionResult> ValidatedLogin([FromServices] ILoginValidadoUseCase useCase, [FromBody] LoginValidatedRequest request)
+    public async Task<IActionResult> ValidatedLogin( [FromServices] ILoginValidadoUseCase useCase, [FromBody] LoginValidatedRequest request)
     {
         var result = await useCase.LoginValidado(request);
 

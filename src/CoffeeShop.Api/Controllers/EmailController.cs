@@ -11,7 +11,7 @@ namespace CoffeeShop.Api.Controllers
     {
         [Route("create-email")]
         [HttpPost]
-        public async Task<ActionResult> Create([FromServices] IEmailSenderNotification useCase, [FromBody] EmailRequest request)
+        public async Task<ActionResult> Create([FromServices] IEmailSenderNotificationUseCase useCase, [FromBody] EmailRequest request)
         {
             await useCase.SendEmailNotification(request.Email);
 

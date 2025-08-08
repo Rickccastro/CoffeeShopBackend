@@ -1,9 +1,11 @@
-﻿using CoffeeShop.Application.UseCase.Checkout.Create;
+﻿using CoffeeShop.Application.Orchestrator.Checkout.Create;
 using CoffeeShop.Application.UseCase.Checkout.Expire;
 using CoffeeShop.Application.UseCase.Checkout.GetSessionStatus;
 using CoffeeShop.Communication.Requests.Checkout;
 using CoffeeShop.Communication.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 
 namespace CoffeeShop.Controllers;
@@ -11,11 +13,12 @@ namespace CoffeeShop.Controllers;
 [ApiController]
 public class CheckoutSessionController : ControllerBase
 {
+    [Authorize]
     [Route("create-checkout-session")]
     [HttpPost]
-    public async Task <ActionResult> Create([FromServices] ICreateCheckoutUseCase useCase, [FromBody] CheckoutRequest request)
+    public async Task <ActionResult> Create([FromServices] ICreateCheckoutOrchestrator orchestrator, [FromBody] CheckoutRequest request)
     {
-        var resultCreateCheckoutUseCase = await useCase.CreateCheckout(request);
+        var resultCreateCheckoutUseCase = await orchestrator.CreateCheckout(request);
 
         return Ok(new CheckoutSessionResponse(resultCreateCheckoutUseCase.ClientSecret, resultCreateCheckoutUseCase.SessionId));
     }

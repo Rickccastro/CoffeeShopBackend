@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Stripe;
-using static CoffeeShop.Controllers.ProductsController;
 
 namespace CoffeeShop.Controllers;
 [Route("[controller]")]
