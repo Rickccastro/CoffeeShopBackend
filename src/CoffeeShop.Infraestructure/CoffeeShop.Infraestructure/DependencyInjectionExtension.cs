@@ -90,8 +90,8 @@ namespace CoffeeShop.Infraestructure
             var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpiresMinutes");
             var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
 
-            var stripeSettings = configuration.GetSection("Settings:Jwt").Get<StripeSettings>()!;
-            services.AddSingleton(stripeSettings);
+            var jwtSettings = configuration.GetSection("Settings:Jwt").Get<SettingsJwt>()!;
+            services.AddSingleton(jwtSettings);
 
             services.AddScoped<IAccessTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IPasswordEncripter, BCryptor>();

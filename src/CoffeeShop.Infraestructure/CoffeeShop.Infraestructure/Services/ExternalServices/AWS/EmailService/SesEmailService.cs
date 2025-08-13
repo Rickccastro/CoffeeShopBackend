@@ -23,7 +23,7 @@ namespace CoffeeShop.Infraestructure.Services.ExternalServices.AWS.EmailService
             _configurationSet = settings.ConfigurationSet!;
         }
 
-        public async Task SendEmailAsync(string toAddress, string subject, string body)
+        public async Task SendEmailAsync(string toAddress, string subject, string bodyHtml)
         {
                 var sendRequest = new SendEmailRequest
                 {
@@ -32,7 +32,7 @@ namespace CoffeeShop.Infraestructure.Services.ExternalServices.AWS.EmailService
                     Message = new Message
                     {
                         Subject = new Content(subject),
-                        Body = new Body { Text = new Content(body) },                    
+                        Body = new Body { Html = new Content(bodyHtml) },                    
                     },
                     ConfigurationSetName = _configurationSet,
                 };
