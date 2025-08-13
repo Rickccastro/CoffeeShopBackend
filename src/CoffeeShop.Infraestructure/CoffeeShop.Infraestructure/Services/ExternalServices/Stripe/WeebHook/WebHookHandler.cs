@@ -1,7 +1,7 @@
 ﻿using CoffeeShop.Application.Services.ExternalServices.Contracts.Stripe;
 using CoffeeShop.Application.Services.ExternalServices.DTO.Stripe;
 using CoffeeShop.Domain.Enums;
-using CoffeeShop.Infraestructure.DataAccess.Repositories.Especificos;
+using CoffeeShop.Domain.Repositories.Especificas;
 using Stripe;
 using Stripe.Checkout;
 
@@ -9,50 +9,14 @@ namespace CoffeeShop.Infraestructure.Services.ExternalServices.Stripe.WeebHook;
 public class WebHookHandler : IWebHookHandler
 {
     private readonly string _webhookSecret;
-    private readonly PaymentRepository _paymentRepository;
+    private readonly IPaymentsRepository _paymentRepository;
 
 
-    public WebHookHandler(StripeSettings stripeSettings, PaymentRepository paymentRepository)
+    public WebHookHandler(StripeSettings stripeSettings, IPaymentsRepository paymentRepository)
     {
         _webhookSecret = stripeSettings.WebHookSecret;
         _paymentRepository = paymentRepository;
     }
-
-    //public async Task HandleEventAsync(string json, string stripeSignature)
-    //{
-    //    var stripeEvent = EventUtility.ConstructEvent(
-    //        json,
-    //        stripeSignature,
-    //        _webhookSecret
-    //    );
-
-    //    switch (stripeEvent.Type)
-    //    {
-    //        case "payment_intent.succeeded":
-    //            var pi = stripeEvent.Data.Object as PaymentIntent;
-    //            // lógica para pagamento aprovado
-    //            break;
-
-    //        case "payment_intent.payment_failed":
-    //            var failed = stripeEvent.Data.Object as PaymentIntent;
-    //            // lógica para pagamento falhou
-    //            break;
-
-    //        case "charge.refunded":
-    //            var refundedCharge = stripeEvent.Data.Object as Charge;
-    //            // lógica para reembolso
-    //            break;
-
-    //        case "checkout.session.completed":
-    //            var session = stripeEvent.Data.Object as Session;
-    //            // lógica para checkout concluído
-    //            break;
-
-    //        default:
-    //            break;
-    //    }
-    //}
-
     public async Task HandleEventAsync(string json, string stripeSignature)
     {
         var stripeEvent = EventUtility.ConstructEvent(json, stripeSignature, _webhookSecret);
@@ -114,44 +78,57 @@ public class WebHookHandler : IWebHookHandler
                         }
                     }
 
-                    var pi = paymentIntentEvent;
-
-
-                    if (pi != null)
+                    if (paymentIntentEvent != null)
                     {
                         // Buscar Session ligada a esse PaymentIntent
                         var sessionService = new SessionService();
                         var sessionList = await sessionService.ListAsync(new SessionListOptions
                         {
-                            PaymentIntent = pi.Id,
+                            PaymentIntent = paymentIntentEvent.Id,
                             Limit = 1
                         });
                         var sessionId = sessionList.Data.FirstOrDefault()?.Id;
+
+
+                        //// Buscar o PaymentIntent
+                        //var paymentIntentService = new PaymentIntentService();
+                        //var paymentIntent = await paymentIntentService.GetAsync(sessionList.Data.FirstOrDefault().PaymentIntentId);
+
+                        var paymentMethodService = new PaymentMethodService();
+                        var paymentMethod = await paymentMethodService.GetAsync(paymentIntentEvent.PaymentMethod.ToString());
 
                         if (sessionId != null)
                         {
                             // Buscar o Charge para obter o ReceiptUrl (mesma lógica do primeiro case)
                             string receiptUrl = null;
-                            if (!string.IsNullOrEmpty(pi.LatestChargeId))
+                            if (!string.IsNullOrEmpty(paymentIntentEvent.LatestChargeId))
                             {
                                 var chargeService = new ChargeService();
-                                var charge = await chargeService.GetAsync(pi.LatestChargeId);
+                                var charge = await chargeService.GetAsync(paymentIntentEvent.LatestChargeId);
                                 receiptUrl = charge.ReceiptUrl;
                             }
 
-                            //await _paymentRepository.AtualizarAsync(
-                            //    sessionId,
-                            //    pi.Id,
-                            //    stripeEvent.Type switch
-                            //    {
-                            //        "payment_intent.succeeded" => "SUCCEEDED",
-                            //        "payment_intent.payment_failed" => "FAILED",
-                            //        "charge.refunded" => "REFUNDED",
-                            //        _ => "UNKNOWN"
-                            //    },
-                            //    pi.PaymentMethodTypes?.FirstOrDefault(),
-                            //    receiptUrl
-                            //);
+                            var payment = await _paymentRepository.ObterPorPropriedadeAsync(x => x.PayIdPayment == sessionId);
+
+
+
+                            if (payment != null)
+                            {
+
+                                payment.PayIdPayment = sessionId;
+                                payment.PayIdPaymentIntent = paymentIntentEvent.Id;
+                                payment.PayEnumRefundedStatus = stripeEvent.Type switch
+                                {
+                                    "payment_intent.succeeded" => "SUCCEEDED",
+                                    "payment_intent.payment_failed" => "FAILED",
+                                    "charge.refunded" => "REFUNDED",
+                                    _ => "UNKNOWN"
+                                };
+                                payment.PayNmMethod = paymentMethod?.Type.ToUpper();
+                                payment.PayNmReceiptUrl  =  receiptUrl;
+                                
+                                await _paymentRepository.AtualizarAsync(payment);
+                            }
                         }
                     }
 
